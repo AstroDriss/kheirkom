@@ -1,18 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
 export default async function Home() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  console.log(user);
-
   return (
     <>
-      <header>
-        {user ? user.user_metadata.firstName : <Link href="/login">Login</Link>}
-      </header>
+      <section className="max-w-6xl mx-auto px-4">
+        <h1 className="text-4xl font-semibold">Kheirkom</h1>
+      </section>
     </>
   );
 }
