@@ -22,8 +22,8 @@ const ConfirmEmail = async ({
 
         <CardContent>
           <p>
-            We've sent a confirmation link to <b>{email}</b>. Please check your
-            inbox and verify your email before signing in.
+            We&apos;ve sent a confirmation link to <b>{email}</b>. Please check
+            your inbox and verify your email before signing in.
           </p>
         </CardContent>
       </Card>

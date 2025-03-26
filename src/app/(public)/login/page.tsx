@@ -88,7 +88,7 @@ const Login = () => {
         </CardContent>
         <CardFooter>
           <p className="mx-auto">
-            don't have account?{" "}
+            don&apos;t have account?{" "}
             <Link className="underline" href="/signup">
               Sign up.
             </Link>
