@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "your small contribution can make someone happy - Kheirkom",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

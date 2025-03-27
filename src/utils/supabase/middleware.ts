@@ -7,8 +7,8 @@ export async function updateSession(request: NextRequest) {
   });
 
   const supabase = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {
@@ -39,7 +39,25 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && request.nextUrl.pathname.startsWith("/admin")) {
+  const pathname = request.nextUrl.pathname;
+  const isAppRoute = pathname.startsWith("/app");
+  const isAuthRoute = ["/login", "/signup"].includes(pathname);
+
+  // If the user is not authenticated and tries to access /app, redirect to login
+  if (!user && isAppRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+
+  // If the user is authenticated and tries to access login or signup, redirect to /app
+  if (user && (isAuthRoute || pathname === "/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/app";
+    return NextResponse.redirect(url);
+  }
+
+  if (!user && pathname.startsWith("/admin")) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/login";
