@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 export default async function Home() {
   return (
     <>
-      <div className="container">
+      <div className="wrapper">
         <Hero />
         <Companies />
       </div>

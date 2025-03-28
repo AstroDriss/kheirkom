@@ -1,34 +1,49 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
-import { Tables } from "@/utils/supabase/database.types";
-import { useEffect, useState } from "react";
+import { fetchPosts } from "@/actions/post";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import PostCard from "./PostCard";
 
 const Feed = () => {
-  const [posts, setPosts] = useState<Pick<Tables<"posts">, "id" | "content">[]>(
-    [{ id: 1, content: "filler" }]
-  );
+  const {
+    data,
+    isPending,
+    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: fetchPosts,
+    initialPageParam: null,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    async function getPosts() {
-      const supabase = createClient();
-
-      const { data: posts, error } = await supabase
-        .from("posts")
-        .select("id,content");
-
-      if (error) alert(error.message);
-      else setPosts(posts);
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-    // getPosts();
-  }, []);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <div>
-      {posts.map((post) => (
-        <p>{post.content}</p>
+    <section className="wrapper mt-4">
+      {isPending && <p>Loading...</p>}
+
+      {data?.pages.map((page) => (
+        <div className="space-y-4" key={page.nextPage}>
+          {page.data.map((post) => (
+            <PostCard post={post} key={post.id} />
+          ))}
+        </div>
       ))}
-    </div>
+
+      <div ref={ref}>
+        {isFetching && !isFetchingNextPage ? "Fetching..." : null}
+      </div>
+    </section>
   );
 };
 

@@ -61,3 +61,52 @@ export const post = async (formData: FormData) => {
 
   return { success: true };
 };
+
+export const fetchPosts = async ({
+  pageParam,
+}: {
+  pageParam: string | null;
+}) => {
+  const supabase = await createClient();
+  const limit = 10;
+
+  let query = supabase
+    .from("posts")
+    .select(
+      "id, content, created_at, images (images_url), likes:likes(count), user:users(first_name, last_name, profile_image)"
+    )
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (pageParam) {
+    query = query.gt("created_at", pageParam);
+  }
+
+  const { data, error } = await query;
+
+  if (error) throw error;
+  return {
+    data,
+    nextPage:
+      data.length === limit ? data[data.length - 1].created_at : undefined,
+  };
+};
+
+export const toggleLike = async (postId: number, userId: string) => {
+  const supabase = await createClient();
+
+  const { data: existingLike } = await supabase
+    .from("likes")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("post_id", postId)
+    .single();
+
+  if (existingLike) {
+    await supabase.from("likes").delete().eq("id", existingLike.id);
+    return { liked: false };
+  } else {
+    await supabase.from("likes").insert({ user_id: userId, post_id: postId });
+    return { liked: true };
+  }
+};
