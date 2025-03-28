@@ -1,5 +1,11 @@
+import Feed from "@/components/Feed";
+
 const AppPage = () => {
-  return <main>App</main>;
+  return (
+    <div>
+      <Feed />
+    </div>
+  );
 };
 
 export default AppPage;

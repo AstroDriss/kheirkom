@@ -1,9 +1,15 @@
+import Hero from "@/components/Hero";
+import Companies from "@/components/Companies";
+import Footer from "@/components/Footer";
+
 export default async function Home() {
   return (
     <>
-      <section className="max-w-6xl mx-auto px-4">
-        <h1 className="text-4xl font-semibold">Kheirkom</h1>
-      </section>
+      <div className="container">
+        <Hero />
+        <Companies />
+      </div>
+      <Footer />
     </>
   );
 }

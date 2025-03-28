@@ -48,8 +48,8 @@ const PostButton = () => {
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
-      <DialogTrigger>
-        <Button variant="outline">Post</Button>
+      <DialogTrigger className="cursor-pointer px-4 border rounded-md py-2">
+        Post
       </DialogTrigger>
 
       <DialogContent>
