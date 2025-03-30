@@ -1,17 +1,19 @@
+import { formatRelativeTime } from "@/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import LikeButton from "./LikeButton";
 
 interface Post {
   id: number;
   content: string;
   created_at: string;
+  user_liked?: { user_id: string | null }[];
   images: {
     images_url: string;
   }[];
-  likes: {
-    count: number;
-  }[];
+  post_analytics: {
+    likes_count: number;
+  } | null;
   user: {
     first_name: string;
     last_name: string | null;
@@ -19,33 +21,12 @@ interface Post {
   };
 }
 
-const formatRelativeTime = (createdAt: string) => {
-  const now = new Date().valueOf();
-  const postDate = new Date(createdAt).valueOf();
-  const diffInSeconds = Math.floor((now - postDate) / 1000);
+interface Props {
+  post: Post;
+  user_id: string | null;
+}
 
-  const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-
-  const units = [
-    { unit: "year", value: 60 * 60 * 24 * 365 },
-    { unit: "month", value: 60 * 60 * 24 * 30 },
-    { unit: "day", value: 60 * 60 * 24 },
-    { unit: "hour", value: 60 * 60 },
-    { unit: "minute", value: 60 },
-    { unit: "second", value: 1 },
-  ];
-
-  for (const { unit, value } of units) {
-    const diff = Math.floor(diffInSeconds / value);
-    if (Math.abs(diff) >= 1) {
-      return formatter.format(diff, unit as Intl.RelativeTimeFormatUnit);
-    }
-  }
-
-  return "just now";
-};
-
-const index = ({ post }: { post: Post }) => {
+const index = ({ post, user_id }: Props) => {
   return (
     <Card className="max-w-[29.3rem] mx-auto">
       <CardHeader>
@@ -76,9 +57,7 @@ const index = ({ post }: { post: Post }) => {
         )}
       </CardContent>
       <CardFooter>
-        <Button variant="ghost">
-          {post.likes[0].count} {post.likes[0].count === 1 ? "like" : "likes"}
-        </Button>
+        <LikeButton post={post} user_id={user_id} />
       </CardFooter>
     </Card>
   );

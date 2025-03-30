@@ -6,7 +6,11 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
 
-const Feed = () => {
+interface Props {
+  user_id: string | null;
+}
+
+const Feed = ({ user_id }: Props) => {
   const {
     data,
     isPending,
@@ -17,9 +21,11 @@ const Feed = () => {
   } = useInfiniteQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    initialPageParam: null,
+    initialPageParam: { user_id, created_at: null },
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    refetchOnWindowFocus: false,
   });
+
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -33,9 +39,9 @@ const Feed = () => {
       {isPending && <p>Loading...</p>}
 
       {data?.pages.map((page) => (
-        <div className="space-y-4" key={page.nextPage}>
+        <div className="space-y-4" key={page.nextPage.created_at}>
           {page.data.map((post) => (
-            <PostCard post={post} key={post.id} />
+            <PostCard post={post} user_id={user_id} key={post.id} />
           ))}
         </div>
       ))}

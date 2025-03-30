@@ -1,9 +1,15 @@
 import Feed from "@/components/Feed";
+import { createClient } from "@/utils/supabase/server";
 
-const AppPage = () => {
+const AppPage = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div>
-      <Feed />
+      <Feed user_id={user?.id || null} />
     </div>
   );
 };

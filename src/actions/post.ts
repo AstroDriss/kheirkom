@@ -65,21 +65,48 @@ export const post = async (formData: FormData) => {
 export const fetchPosts = async ({
   pageParam,
 }: {
-  pageParam: string | null;
+  pageParam: {
+    created_at: string | null;
+    user_id: string | null;
+  };
 }) => {
   const supabase = await createClient();
   const limit = 10;
 
-  let query = supabase
-    .from("posts")
-    .select(
-      "id, content, created_at, images (images_url), likes:likes(count), user:users(first_name, last_name, profile_image)"
-    )
-    .order("created_at", { ascending: false })
-    .limit(limit);
+  let query;
 
-  if (pageParam) {
-    query = query.gt("created_at", pageParam);
+  if (pageParam.user_id !== null) {
+    query = supabase
+      .from("posts")
+      .select(
+        `
+    id, 
+    content, 
+    created_at, 
+    images (images_url), 
+    post_analytics (likes_count),
+    user:users(first_name, last_name, profile_image),
+    user_liked:likes(user_id)
+  `
+      )
+      .eq("likes.user_id", pageParam.user_id)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+  } else {
+    query = supabase
+      .from("posts")
+      .select(
+        `id, content, created_at,
+    images (images_url),
+    post_analytics!inner (likes_count),
+    user:users(first_name, last_name, profile_image)`
+      )
+      .order("created_at", { ascending: false })
+      .limit(limit);
+  }
+
+  if (pageParam.created_at) {
+    query = query.gt("created_at", pageParam.created_at);
   }
 
   const { data, error } = await query;
@@ -87,8 +114,10 @@ export const fetchPosts = async ({
   if (error) throw error;
   return {
     data,
-    nextPage:
-      data.length === limit ? data[data.length - 1].created_at : undefined,
+    nextPage: {
+      created_at: data.length > 0 ? data[data.length - 1].created_at : null,
+      user_id: pageParam.user_id,
+    },
   };
 };
 
