@@ -120,4 +120,7 @@
   .wrapper {
     @apply mx-auto px-4 max-w-7xl;
   }
+  .section-space {
+    margin-block: 7rem;
+  }
 }

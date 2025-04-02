@@ -44,7 +44,7 @@ const LikeButton = ({ post, user_id }: Props) => {
 
   return (
     <form action={formAction}>
-      <Button type="submit" variant="ghost">
+      <Button type="submit" className="w-full" variant="ghost">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"

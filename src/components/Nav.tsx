@@ -54,6 +54,8 @@ const AppNav = () => {
     getUser();
   }, []);
 
+  if (!user) return;
+
   return (
     <nav className="ml-auto flex items-center gap-3">
       <PostButton />
@@ -79,8 +81,8 @@ export default function Nav() {
           <span className="sr-only">Kheirkom</span>
         </Link>
 
-        {isAppRoute && <AppNav />}
         {isLandingPage && <LandingNav />}
+        {isAppRoute && <AppNav />}
       </div>
     </header>
   );

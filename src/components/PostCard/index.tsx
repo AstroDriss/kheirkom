@@ -2,6 +2,7 @@ import { formatRelativeTime } from "@/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import LikeButton from "./LikeButton";
+import Link from "next/link";
 
 interface Post {
   id: number;
@@ -56,8 +57,29 @@ const index = ({ post, user_id }: Props) => {
           />
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="grid grid-cols-2 gap-2">
         <LikeButton post={post} user_id={user_id} />
+        <Link
+          className="flex items-center justify-center gap-2"
+          href={`/app/post/${post.id}`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              d="M7.09 2.75a4 4 0 0 0-4 4v6.208a4 4 0 0 0 4 4h.093v3.792a.5.5 0 0 0 .839.368l4.52-4.16h4.369a4 4 0 0 0 4-4V6.75a4 4 0 0 0-4-4z"
+            />
+          </svg>
+          Comments
+        </Link>
       </CardFooter>
     </Card>
   );
