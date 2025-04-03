@@ -5,6 +5,25 @@ import { loginSchema, signUpSchema } from "@/utils/validations/auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+export async function getUser() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (error) return null;
+
+  return data;
+}
+
 export async function login(email: string, password: string) {
   const supabase = await createClient();
 

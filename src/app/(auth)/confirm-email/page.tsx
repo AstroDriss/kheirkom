@@ -1,4 +1,3 @@
-// import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;

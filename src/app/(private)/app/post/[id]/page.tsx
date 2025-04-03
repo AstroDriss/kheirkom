@@ -14,7 +14,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     <div>
       <PostCard post={post} user_id={user_id} />
 
-      <section className="mx-auto max-w-3xl my-4 py-4 space-y-4">
+      <section id="comments" className="mx-auto max-w-3xl my-4 py-4 space-y-4">
         <CommentsList post_id={post.id} user_id={user_id} />
       </section>
     </div>

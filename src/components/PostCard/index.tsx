@@ -61,7 +61,7 @@ const index = ({ post, user_id }: Props) => {
         <LikeButton post={post} user_id={user_id} />
         <Link
           className="flex items-center justify-center gap-2"
-          href={`/app/post/${post.id}`}
+          href={`/app/post/${post.id}#comments`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

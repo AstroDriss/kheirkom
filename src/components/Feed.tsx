@@ -35,7 +35,7 @@ const Feed = ({ user_id }: Props) => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <section className="wrapper mt-4">
+    <section className="wrapper">
       {isPending && <p>Loading...</p>}
 
       {data?.pages.map((page) => (

@@ -73,7 +73,7 @@ const SignUp = () => {
                 name="role"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-4">
                       <FormLabel>What are you?</FormLabel>
                       <FormControl>
                         <Select
@@ -209,7 +209,7 @@ const SignUp = () => {
           </Form>
         </CardContent>
         <CardFooter>
-          <p className="mx-auto">
+          <p>
             already have account?{" "}
             <Link href="/login" className="underline">
               Login here.

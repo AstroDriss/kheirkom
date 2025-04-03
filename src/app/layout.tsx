@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Nav from "@/components/Nav";
 
 import "./globals.css";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
@@ -30,10 +29,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Nav />
-        <main>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </main>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );

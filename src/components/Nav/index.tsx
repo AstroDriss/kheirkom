@@ -1,13 +1,5 @@
-"use client";
-import { logout } from "@/actions/auth";
 import Logo from "@/assets/Logo";
-import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
-import PostButton from "./upload/PostButton";
 
 interface NavigationLink {
   name: string;
@@ -41,38 +33,7 @@ const LandingNav = () => {
   );
 };
 
-const AppNav = () => {
-  const [user, setUser] = useState<User>();
-
-  useEffect(() => {
-    const getUser = async () => {
-      const supabase = createClient();
-      const { data } = await supabase.auth.getUser();
-
-      if (data.user) setUser(data.user);
-    };
-    getUser();
-  }, []);
-
-  if (!user) return;
-
-  return (
-    <nav className="ml-auto flex items-center gap-3">
-      <PostButton />
-      <p>{user?.user_metadata.firstName}</p>
-      <form action={logout}>
-        <Button>Logout</Button>
-      </form>
-    </nav>
-  );
-};
-
 export default function Nav() {
-  const pathname = usePathname();
-
-  const isLandingPage = pathname === "/";
-  const isAppRoute = pathname.startsWith("/app");
-
   return (
     <header className="border-b">
       <div className="max-w-7xl mx-auto flex h-20 items-center px-4">
@@ -81,8 +42,7 @@ export default function Nav() {
           <span className="sr-only">Kheirkom</span>
         </Link>
 
-        {isLandingPage && <LandingNav />}
-        {isAppRoute && <AppNav />}
+        <LandingNav />
       </div>
     </header>
   );
