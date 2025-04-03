@@ -9,9 +9,10 @@ interface Props {
   post_id: number;
   parent_id: number | null;
   user_id: string | null;
+  setReplyingTo?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const AddComment = ({ post_id, user_id, parent_id }: Props) => {
+const AddComment = ({ post_id, user_id, parent_id, setReplyingTo }: Props) => {
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -28,24 +29,30 @@ const AddComment = ({ post_id, user_id, parent_id }: Props) => {
     const res = await addComment(post_id, user_id, comment, parent_id);
 
     if (res.error) alert(res.error);
-    if (res.id) reset({ comment: "" });
+    if (res.id) {
+      reset({ comment: "" });
+      if (setReplyingTo) setReplyingTo(null);
+    }
 
     setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(handlePostComment)} className="space-y-3">
+    <form
+      onSubmit={handleSubmit(handlePostComment)}
+      className="rounded-lg p-4 flex items-start gap-2 bg-white"
+    >
       <Textarea
         {...register("comment", { required: "Comment cannot be empty" })}
         placeholder="Write a comment..."
-        className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
+        autoFocus
         disabled={loading}
       />
       {errors.comment && (
         <p className="text-red-500 text-sm">{errors.comment.message}</p>
       )}
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Posting..." : "Post Comment"}
+      <Button type="submit" disabled={loading}>
+        {loading ? "Sending..." : "Send"}
       </Button>
     </form>
   );

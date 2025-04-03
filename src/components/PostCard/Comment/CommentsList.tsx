@@ -13,14 +13,15 @@ const CommentsList = async ({ post_id, user_id }: Props) => {
   if (error) return <p>Error</p>;
 
   return (
-    <div className="my-4">
+    <>
       <div className="mb-4">
         <AddComment post_id={post_id} user_id={user_id} parent_id={null} />
       </div>
+
       {comments?.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} user_id={user_id} />
       ))}
-    </div>
+    </>
   );
 };
 

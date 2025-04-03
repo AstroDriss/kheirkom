@@ -178,9 +178,49 @@ type UserDetails = {
 };
 
 export type CommentWithUser = Tables<"comments"> & {
-  replies: CommentWithUser[];
   user: UserDetails;
 };
+export type CommentWithReplies = CommentWithUser & {
+  replies: CommentWithReplies[];
+};
+
+function transformCommentsToNestedStructure(
+  comments: CommentWithUser[]
+): CommentWithReplies[] {
+  // Create a mapping of comments by ID for quick access
+  const commentMap: Record<number, CommentWithReplies> = {};
+
+  const topLevelComments: CommentWithReplies[] = [];
+
+  comments.forEach((comment) => {
+    const commentWithUser: CommentWithReplies = {
+      ...comment,
+      replies: [],
+    };
+
+    commentMap[comment.id] = commentWithUser;
+  });
+
+  comments.forEach((comment) => {
+    const transformedComment = commentMap[comment.id];
+
+    if (comment.parent_id === null) {
+      topLevelComments.push(transformedComment);
+    } else {
+      const parentComment = commentMap[comment.parent_id];
+      if (parentComment) {
+        parentComment.replies.push(transformedComment);
+      } else {
+        console.warn(
+          `Parent comment ${comment.parent_id} not found for comment ${comment.id}`
+        );
+        topLevelComments.push(transformedComment);
+      }
+    }
+  });
+
+  return topLevelComments;
+}
 
 export const toggleLike = async (postId: number, userId: string) => {
   const supabase = await createClient();
@@ -212,24 +252,7 @@ export const fetchComments = async (post_id: number) => {
 
   if (error) return { error: error.message };
 
-  const commentMap: Record<string, CommentWithUser> = {};
-
-  comments.forEach((comment) => {
-    commentMap[comment.id] = { ...comment, replies: [] };
-  });
-
-  const nestedComments: CommentWithUser[] = [];
-
-  comments.forEach((comment) => {
-    if (comment.parent_id) {
-      commentMap[comment.parent_id].replies.push(commentMap[comment.id]);
-      nestedComments.push(commentMap[comment.parent_id]);
-    } else {
-      nestedComments.push({ ...comment, replies: [] });
-    }
-  });
-
-  return { comments: nestedComments };
+  return { comments: transformCommentsToNestedStructure(comments) };
 };
 
 export const addComment = async (
