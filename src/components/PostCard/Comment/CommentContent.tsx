@@ -63,10 +63,10 @@ const CommentContent = ({ comment, user_id }: Props) => {
         )}
       </div>
 
-      {!isUsersComment && replyingTo && (
+      {!isUsersComment && replyingTo && user_id && (
         <AddComment
           post_id={comment.post_id}
-          user_id={comment.user_id}
+          user_id={user_id}
           parent_id={comment.id}
           setReplyingTo={setReplyingTo}
         />
