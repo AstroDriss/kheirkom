@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { signUpSchema } from "@/utils/validations/auth";
+import { useState } from "react";
 
 const SignUp = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -46,11 +47,16 @@ const SignUp = () => {
       confirmPassword: "",
     },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    setIsSubmitting(true);
+
     const error = await signup(values);
 
-    if (error) return console.log(error);
+    if (error) alert(error);
+
+    setIsSubmitting(false);
   }
 
   const userType = form.watch("role");
@@ -204,7 +210,9 @@ const SignUp = () => {
                 )}
               />
 
-              <Button type="submit">Submit</Button>
+              <Button className="cursor-pointer" disabled={isSubmitting}>
+                {isSubmitting ? "loading..." : "Sign Up"}
+              </Button>
             </form>
           </Form>
         </CardContent>

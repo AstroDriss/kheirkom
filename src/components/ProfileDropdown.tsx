@@ -10,6 +10,7 @@ import {
 import { LogOut, User } from "lucide-react";
 import { Tables } from "../../database.types";
 import { logout } from "@/actions/auth";
+import Link from "next/link";
 
 interface Props {
   user: Tables<"users">;
@@ -41,10 +42,12 @@ const ProfileDropdown = ({ user }: Props) => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
-          <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
-        </DropdownMenuItem>
+        <Link href={`/app/profile/${user.id}`}>
+          <DropdownMenuItem className="cursor-pointer">
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuSeparator />
         <form action={logout}>
           <button className="w-full">

@@ -25,6 +25,7 @@ import {
 import { login } from "@/actions/auth";
 import Link from "next/link";
 import { loginSchema } from "@/utils/validations/auth";
+import { useState } from "react";
 
 const Login = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -34,13 +35,16 @@ const Login = () => {
       password: "",
     },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function onSubmit({ email, password }: z.infer<typeof loginSchema>) {
+    setIsSubmitting(true);
+
     const error = await login(email, password);
 
-    if (error) {
-      return alert(error);
-    }
+    if (error) alert(error);
+
+    setIsSubmitting(false);
   }
 
   return (
@@ -82,7 +86,9 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button className="cursor-pointer" disabled={isSubmitting}>
+                {isSubmitting ? "loading..." : "Log In"}
+              </Button>
             </form>
           </Form>
         </CardContent>

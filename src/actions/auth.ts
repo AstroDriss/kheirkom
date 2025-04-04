@@ -24,6 +24,18 @@ export async function getUser() {
   return data;
 }
 
+export async function getUserById(id: string) {
+  const supabase = await createClient();
+
+  const { data: user } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  return user;
+}
+
 export async function login(email: string, password: string) {
   const supabase = await createClient();
 

@@ -1,5 +1,6 @@
 import { getUser } from "@/actions/auth";
 import AppNav from "@/components/Nav/AppNav";
+import AuthProvider from "@/context/AuthProvider";
 
 export default async function AppLayout({
   children,
@@ -11,7 +12,9 @@ export default async function AppLayout({
   return (
     <div className="bg-gray-100 min-h-screen">
       <AppNav user={user} />
-      <main>{children}</main>
+      <main>
+        <AuthProvider>{children}</AuthProvider>
+      </main>
     </div>
   );
 }
