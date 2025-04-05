@@ -36,7 +36,7 @@ const LandingNav = () => {
 export default function Nav() {
   return (
     <header className="border-b">
-      <div className="max-w-7xl mx-auto flex h-20 items-center px-4">
+      <div className="max-w-7xl mx-auto flex items-center px-4 py-2">
         <Link href="/" prefetch={false}>
           <Logo height={40} />
           <span className="sr-only">Kheirkom</span>

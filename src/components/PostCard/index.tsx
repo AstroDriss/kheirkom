@@ -16,6 +16,7 @@ interface Post {
     likes_count: number;
   } | null;
   user: {
+    id: string;
     first_name: string;
     last_name: string | null;
     profile_image: string | null;
@@ -39,7 +40,9 @@ const index = ({ post, user_id }: Props) => {
 
           <div className="flex flex-col ml-3">
             <p className="text-sm font-semibold">
-              {post.user.first_name} {post.user.last_name}
+              <Link href={`/app/profile/${post.user.id}`}>
+                {post.user.first_name} {post.user.last_name}
+              </Link>
             </p>
             <p className="text-xs text-muted-foreground">
               {formatRelativeTime(post.created_at)}

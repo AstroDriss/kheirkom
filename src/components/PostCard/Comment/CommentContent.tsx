@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { formatRelativeTime } from "@/utils";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Props {
   comment: CommentWithUser;
@@ -31,7 +32,9 @@ const CommentContent = ({ comment, user_id }: Props) => {
 
           <div>
             <p className="font-semibold">
-              {comment.user.first_name} {comment.user.last_name}
+              <Link href={`/app/profile/${comment.user.id}`}>
+                {isUsersComment ? "You" : comment.user.first_name}
+              </Link>
             </p>
 
             <p className="text-gray-400">

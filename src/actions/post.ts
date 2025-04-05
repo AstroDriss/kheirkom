@@ -85,7 +85,7 @@ export const fetchPost = async (post_id: number) => {
     created_at, 
     images (images_url), 
     post_analytics (likes_count),
-    user:users(first_name, last_name, profile_image),
+    user:users(id, first_name, last_name, profile_image),
     user_liked:likes(user_id)
   `
       )
@@ -99,7 +99,7 @@ export const fetchPost = async (post_id: number) => {
         `id, content, created_at,
     images (images_url),
     post_analytics!inner (likes_count),
-    user:users(first_name, last_name, profile_image)`
+    user:users(id, first_name, last_name, profile_image)`
       )
       .eq("id", post_id)
       .single();
@@ -172,6 +172,7 @@ export const fetchPosts = async ({
 };
 
 type UserDetails = {
+  id: string;
   first_name: string;
   last_name: string | null;
   profile_image: string | null;
@@ -246,7 +247,7 @@ export const fetchComments = async (post_id: number) => {
 
   const { data: comments, error } = await supabase
     .from("comments")
-    .select("*, user:users(first_name, last_name, profile_image)")
+    .select("*, user:users(id,first_name, last_name, profile_image)")
     .eq("post_id", post_id)
     .order("created_at", { ascending: true });
 

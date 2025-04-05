@@ -13,7 +13,7 @@ const AppNav = ({ user }: Props) => {
 
   return (
     <header className="border-b bg-white">
-      <div className="max-w-7xl mx-auto flex h-20 justify-between items-center px-4">
+      <div className="max-w-7xl mx-auto flex py-2 justify-between items-center px-4">
         <Link href="/" prefetch={false}>
           <Logo height={40} />
           <span className="sr-only">Kheirkom</span>

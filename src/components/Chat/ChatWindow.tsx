@@ -42,7 +42,7 @@ export default function ChatWindow({ chatId }: Props) {
     );
 
   return (
-    <div className="h-[89vh] flex flex-col p-3">
+    <div className="h-[89vh] flex flex-col p-3 bg-background">
       <div className="overflow-y-auto gap-3 py-3 px-1 flex-1 flex flex-col">
         <div className="mt-auto" />
 
