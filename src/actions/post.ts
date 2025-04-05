@@ -33,11 +33,8 @@ export const post = async (formData: FormData) => {
     );
 
     const data = await res.json();
-    console.log(data);
     uploadedImageUrl = data.secure_url;
   }
-
-  console.log({ uploadedImageUrl });
 
   const { data: postData, error: postError } = await supabase
     .from("posts")
@@ -53,8 +50,6 @@ export const post = async (formData: FormData) => {
     const { error: imageError } = await supabase
       .from("images")
       .insert([{ post_id: postData.id, images_url: uploadedImageUrl }]);
-
-    console.log(imageError);
 
     if (imageError) {
       return { error: "Error saving image" };
@@ -272,8 +267,6 @@ export const addComment = async (
     .insert([{ post_id, user_id, content, parent_id }])
     .select("id")
     .single();
-
-  console.log(data);
 
   if (error) return { error: error.message };
 
