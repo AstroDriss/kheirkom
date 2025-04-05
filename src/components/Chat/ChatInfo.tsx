@@ -15,10 +15,9 @@ const ChatInfo = ({ chatId }: Props) => {
   const user = use(authContext);
   const [chat, setChat] = useState<ChatWithUser | null>(null);
 
-  if (!chatId) return;
-
   useEffect(() => {
     const fetchChat = async () => {
+      if (!chatId) return;
       const data = await fetchChatById(chatId);
       if (data) setChat(data);
     };
