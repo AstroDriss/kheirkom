@@ -15,10 +15,11 @@ export const post = async (formData: FormData) => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user || user.user_metadata.role !== "association")
-    return { error: "only associations can post" };
+  if (!user) return { error: "Log in to post" };
 
   let uploadedImageUrl = null;
+  if (imageFile && imageFile.size > 5 * 1024 * 1024)
+    return { error: "Image size exceeds 5MB" };
   if (imageFile) {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("file", imageFile);
@@ -79,7 +80,7 @@ export const fetchPost = async (post_id: number) => {
     content, 
     created_at, 
     images (images_url), 
-    post_analytics (likes_count),
+    post_analytics (likes_count, comments_count),
     user:users(id, first_name, last_name, profile_image),
     user_liked:likes(user_id)
   `
@@ -93,7 +94,7 @@ export const fetchPost = async (post_id: number) => {
       .select(
         `id, content, created_at,
     images (images_url),
-    post_analytics!inner (likes_count),
+    post_analytics!inner (likes_count, comments_count),
     user:users(id, first_name, last_name, profile_image)`
       )
       .eq("id", post_id)
@@ -107,11 +108,16 @@ export const fetchPost = async (post_id: number) => {
   return { post, user_id };
 };
 
+export type PostWithDetails = NonNullable<
+  Awaited<ReturnType<typeof fetchPost>>["post"]
+>;
+
 export const fetchPosts = async ({
   pageParam,
 }: {
   pageParam: {
     created_at: string | null;
+    id: number | null;
     user_id: string | null;
   };
 }) => {
@@ -130,7 +136,7 @@ export const fetchPosts = async ({
     created_at, 
     images (images_url), 
     post_analytics (likes_count, comments_count),
-    user:users(first_name, last_name, profile_image),
+    user:users(id, first_name, last_name, profile_image),
     user_liked:likes(user_id)
   `
       )
@@ -143,15 +149,17 @@ export const fetchPosts = async ({
       .select(
         `id, content, created_at,
     images (images_url),
-    post_analytics!inner (likes_count),
-    user:users(first_name, last_name, profile_image)`
+    post_analytics!inner (likes_count, comments_count),
+    user:users(id, first_name, last_name, profile_image)`
       )
       .order("created_at", { ascending: false })
       .limit(limit);
   }
 
-  if (pageParam.created_at) {
-    query = query.gt("created_at", pageParam.created_at);
+  if (pageParam.created_at && pageParam.id) {
+    query = query.or(
+      `created_at.gt.${pageParam.created_at},and(created_at.eq.${pageParam.created_at},id.gt.${pageParam.id})`
+    );
   }
 
   const { data, error } = await query;
@@ -161,6 +169,7 @@ export const fetchPosts = async ({
     data,
     nextPage: {
       created_at: data.length > 0 ? data[data.length - 1].created_at : null,
+      id: data.length > 0 ? data[data.length - 1].id : null,
       user_id: pageParam.user_id,
     },
   };

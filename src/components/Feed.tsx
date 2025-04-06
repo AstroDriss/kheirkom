@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
+import { Loader2 } from "lucide-react";
 
 interface Props {
   user_id: string | null;
@@ -21,8 +22,10 @@ const Feed = ({ user_id }: Props) => {
   } = useInfiniteQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    initialPageParam: { user_id, created_at: null },
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: { user_id, created_at: null, id: null },
+    getNextPageParam: (lastPage) => {
+      return lastPage.data.length ? lastPage.nextPage : undefined;
+    },
     refetchOnWindowFocus: false,
   });
 
@@ -35,8 +38,13 @@ const Feed = ({ user_id }: Props) => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   return (
-    <section className="wrapper">
-      {isPending && <p>Loading...</p>}
+    <section className="wrapper py-4">
+      {isPending && (
+        <p className="wrapper">
+          <Loader2 className="animate-spin h-4 w-4" />
+          Loading...
+        </p>
+      )}
 
       {data?.pages.map((page) => (
         <div className="space-y-4" key={page.nextPage.created_at}>

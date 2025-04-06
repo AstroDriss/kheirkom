@@ -6,9 +6,9 @@ export default async function AppLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen">
+    <div className="h-full">
       <Nav />
-      <main>{children}</main>
+      <main className="h-full">{children}</main>
     </div>
   );
 }

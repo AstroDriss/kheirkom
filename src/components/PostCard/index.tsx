@@ -1,39 +1,22 @@
-import { formatRelativeTime } from "@/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import LikeButton from "./LikeButton";
 import Link from "next/link";
-
-interface Post {
-  id: number;
-  content: string;
-  created_at: string;
-  user_liked?: { user_id: string | null }[];
-  images: {
-    images_url: string;
-  }[];
-  post_analytics: {
-    likes_count: number;
-  } | null;
-  user: {
-    id: string;
-    first_name: string;
-    last_name: string | null;
-    profile_image: string | null;
-  };
-}
+import { MessageCircle } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import type { PostWithDetails } from "@/actions/post";
 
 interface Props {
-  post: Post;
+  post: PostWithDetails;
   user_id: string | null;
 }
 
 const index = ({ post, user_id }: Props) => {
   return (
-    <Card className="max-w-[29.3rem] mx-auto">
-      <CardHeader>
-        <div className="flex items-center gap-4">
-          <Avatar>
+    <Card className="max-w-[29.3rem] mx-auto gap-4">
+      <CardHeader className="">
+        <div className="flex items-center gap-1">
+          <Avatar className="h-10 w-10">
             <AvatarImage src={post.user?.profile_image || ""} />
             <AvatarFallback>{post.user.first_name[0]}</AvatarFallback>
           </Avatar>
@@ -45,7 +28,7 @@ const index = ({ post, user_id }: Props) => {
               </Link>
             </p>
             <p className="text-xs text-muted-foreground">
-              {formatRelativeTime(post.created_at)}
+              {formatDistanceToNow(post.created_at, { addSuffix: true })}
             </p>
           </div>
         </div>
@@ -66,22 +49,9 @@ const index = ({ post, user_id }: Props) => {
           className="flex items-center justify-center gap-2"
           href={`/app/post/${post.id}#comments`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M7.09 2.75a4 4 0 0 0-4 4v6.208a4 4 0 0 0 4 4h.093v3.792a.5.5 0 0 0 .839.368l4.52-4.16h4.369a4 4 0 0 0 4-4V6.75a4 4 0 0 0-4-4z"
-            />
-          </svg>
-          Comments
+          <MessageCircle className="w-5" />
+          {post.post_analytics?.comments_count || 0}
+          <span className="sr-only">Comments</span>
         </Link>
       </CardFooter>
     </Card>

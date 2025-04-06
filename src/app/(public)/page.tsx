@@ -9,7 +9,7 @@ import RecentPosts from "@/components/RecentPosts";
 export default async function Home() {
   return (
     <>
-      <div className="wrapper">
+      <div className="wrapper h-full">
         <Hero />
         <Companies />
         <AboutSection />

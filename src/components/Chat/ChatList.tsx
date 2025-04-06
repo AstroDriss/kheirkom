@@ -32,11 +32,14 @@ const ChatList = ({ chatId }: Props) => {
           <li key={chat.id}>
             <Link
               href={`/app/chat/${chat.id}`}
+              prefetch={false}
               className={`${
                 chatId === chat.id ? "bg-white" : "bg-accent"
               } block p-2`}
             >
               {chatPartner.first_name}
+              <br />
+              <span className="text-muted-foreground">{chat.last_message}</span>
             </Link>
           </li>
         );

@@ -10,9 +10,9 @@ export default async function AppLayout({
   const user = await getUser();
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-100 min-h-full flex flex-col">
       <AppNav user={user} />
-      <main>
+      <main className="flex-grow">
         <AuthProvider>{children}</AuthProvider>
       </main>
     </div>

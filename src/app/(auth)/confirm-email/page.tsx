@@ -11,7 +11,7 @@ const ConfirmEmail = async ({
   const email = p?.email;
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="h-full flex items-center justify-center">
       <Card className="max-w-3xl">
         <CardHeader>
           <CardTitle>

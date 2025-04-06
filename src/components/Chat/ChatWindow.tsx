@@ -7,6 +7,7 @@ import { authContext } from "@/context/AuthProvider";
 import { Tables } from "../../../database.types";
 import { notFound } from "next/navigation";
 import { ChatMessage } from "./ChatMessage";
+import AlwaysScrollIntoView from "../AlwaysScrollIntoView";
 
 interface Props {
   chatId: number | null;
@@ -36,14 +37,14 @@ export default function ChatWindow({ chatId }: Props) {
 
   if (!chatId)
     return (
-      <div className="h-[89vh] flex items-center justify-center">
+      <div className="h-full flex items-center justify-center">
         No Chat selected
       </div>
     );
 
   return (
-    <div className="h-[89vh] flex flex-col p-3 bg-background">
-      <div className="overflow-y-auto gap-3 py-3 px-1 flex-1 flex flex-col">
+    <>
+      <div className="overflow-y-auto flex flex-col gap-3 p-3 bg-background">
         <div className="mt-auto" />
 
         {allMessages.map((msg) => (
@@ -53,8 +54,11 @@ export default function ChatWindow({ chatId }: Props) {
             content={msg.content}
           />
         ))}
+
+        <AlwaysScrollIntoView />
       </div>
+
       {user && <SendMessageForm chatId={chatId} userId={user.id} />}
-    </div>
+    </>
   );
 }
