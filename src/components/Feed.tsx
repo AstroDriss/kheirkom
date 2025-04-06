@@ -27,6 +27,7 @@ const Feed = ({ user_id }: Props) => {
       return lastPage.data.length ? lastPage.nextPage : undefined;
     },
     refetchOnWindowFocus: false,
+    staleTime: 1000 * 60, // 1 minute
   });
 
   const { ref, inView } = useInView();

@@ -7,42 +7,37 @@ interface NavigationLink {
 }
 
 const navigationLinks: NavigationLink[] = [
-  { name: "Home", href: "/" },
+  { name: "How it Works", href: "#how-it-works" },
   { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
+  { name: "FAQ", href: "#faq" },
 ];
-
-const LandingNav = () => {
-  return (
-    <nav className="ml-auto flex items-center gap-12">
-      <ul className="md:flex gap-5 items-center hidden">
-        {navigationLinks.map((link) => (
-          <li key={link.href}>
-            <Link href={link.href}>{link.name}</Link>
-          </li>
-        ))}
-      </ul>
-
-      <Link
-        href="/login"
-        className="p-2 px-4 text-primary-foreground bg-primary rounded-md"
-      >
-        Join our Community
-      </Link>
-    </nav>
-  );
-};
 
 export default function Nav() {
   return (
     <header className="border-b">
-      <div className="max-w-7xl mx-auto flex items-center px-4 py-2">
+      <div className="max-w-7xl justify-between mx-auto flex items-center px-4 py-2">
         <Link href="/" prefetch={false}>
           <Logo height={40} />
-          <span className="sr-only">Kheirkom</span>
+          <span className="sr-only">Kheirkom home</span>
         </Link>
 
-        <LandingNav />
+        <nav className="flex items-center gap-12">
+          <ul className="md:flex gap-10 items-center hidden">
+            {navigationLinks.map((link) => (
+              <li key={link.href}>
+                {/* <Link href={link.href}>{link.name}</Link> */}
+                <a href={link.href}>{link.name}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <Link
+          href="/login"
+          className="p-2 px-4 text-primary-foreground bg-primary rounded-md"
+        >
+          Register
+        </Link>
       </div>
     </header>
   );

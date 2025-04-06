@@ -1,142 +1,179 @@
+import Image from "next/image";
 import Link from "next/link";
 
 // MIDDLE LINKS DATA
 interface ProductType {
   id: number;
   section: string;
-  link: string[];
+  link: {
+    name: string;
+    href: string;
+  }[];
 }
 
 const products: ProductType[] = [
   {
     id: 1,
-    section: "Company",
-    link: ["About us", "Blog", "Contact us", "Testimonials"],
+    section: "Platform",
+    link: [
+      {
+        name: "How It Works",
+        href: "/#how-it-works",
+      },
+      {
+        name: "Browse Associations",
+        href: "#",
+      },
+      {
+        name: "FAQ",
+        href: "/#faq",
+      },
+    ],
   },
   {
     id: 2,
-    section: "Support",
+    section: "Company",
     link: [
-      "Help center",
-      "Terms of service",
-      "Legal",
-      "Privacy Policy",
-      "Status",
+      { name: "About us", href: "#" },
+      { name: "Blog", href: "#" },
+      { name: "Contact us", href: "#" },
+    ],
+  },
+  {
+    id: 3,
+    section: "Legal",
+    link: [
+      { name: "Privacy Policy", href: "#" },
+      { name: "Terms of Service", href: "#" },
+      { name: "Cookie Policy", href: "#" },
     ],
   },
 ];
-
 const Footer = () => {
   return (
-    <div className="bg-[#451f49]">
-      <div className="mx-auto max-w-2xl pt-4 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="mt-24 grid grid-cols-1 gap-y-10 gap-x-16 sm:grid-cols-2 lg:grid-cols-12 xl:gap-x-8">
-          {/* COLUMN-1 */}
-
-          <div className="col-span-4">
-            <img
-              src={"/Kheirkom-k.svg"}
-              width={28}
-              alt="logo"
-              className="pb-4"
-            />
-            <h3 className="text-white text-lg font-medium leading-9 mb-4 lg:mb-20">
-              Give a second life to clothes <br /> and gadgets with a simple
-              donation.
-            </h3>
-            <div className="flex gap-4">
-              <Link href="/">
-                <img
-                  src={"/assets/footer/insta.svg"}
-                  alt="instagram"
-                  className="footer-icons"
-                />
-              </Link>
-              <Link href="/">
-                <img
-                  src={"/assets/footer/dribble.svg"}
-                  alt="dribble"
-                  className="footer-icons"
-                />
-              </Link>
-              <Link href="/">
-                <img
-                  src={"/assets/footer/twitter.svg"}
-                  alt="twitter"
-                  className="footer-icons"
-                />
-              </Link>
-              <Link href="/">
-                <img
-                  src={"/assets/footer/youtube.svg"}
-                  alt="youtube"
-                  className="footer-icons"
-                />
-              </Link>
-            </div>
+    <footer className="w-full border-t bg-background py-6 md:py-12">
+      <div className="px-4 md:px-6">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+          <div className="space-y-4">
+            <Image src="/kheirkom-k.svg" width={70} height={80} alt="logo" />
+            <p className="text-sm text-muted-foreground">
+              Connecting generous donors with associations in need to create a
+              better world together.
+            </p>
           </div>
-
-          {/* CLOUMN-2/3 */}
-
           {products.map((product) => (
-            <div key={product.id} className="group relative col-span-2">
-              <p className="text-white text-xl font-semibold mb-9">
-                {product.section}
-              </p>
-              <ul>
-                {product.link.map((link: string, index: number) => (
-                  <li key={index} className="mb-5">
+            <div className="space-y-4" key={product.id}>
+              <h4>{product.section}</h4>
+
+              <ul className="space-y-2 text-sm">
+                {product.link.map((link) => (
+                  <li key={link.name}>
                     <Link
-                      href="/"
-                      className="text-slate-50 text-sm font-normal mb-6"
+                      href={link.href}
+                      className="text-muted-foreground hover:text-foreground"
                     >
-                      {link}
+                      {link.name}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
-
-          {/* CLOUMN-4 */}
-
-          <div className="col-span-4">
-            <h3 className="text-white text-xl font-semibold mb-6">
-              Stay up to date
-            </h3>
-            <div className="relative text-white focus-within:text-white flex flex-row-reverse">
-              <input
-                type="Email address"
-                name="q"
-                className="py-4 text-sm w-full text-white bg-gray-900 rounded-md pl-4 focus:outline-none focus:text-white"
-                placeholder="Your email address"
-                autoComplete="off"
-              />
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                <button
-                  type="submit"
-                  className="p-1 focus:outline-none focus:shadow-outline"
-                >
-                  <img src={"/assets/footer/inputIcon.svg"} alt="inputicon" />
-                </button>
-              </div>
-            </div>
+        </div>
+        <div className="mt-8 border-t pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Kheirkom. All rights reserved.
+          </p>
+          <div className="flex space-x-4 mt-4 md:mt-0">
+            <Link
+              href="#"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <span className="sr-only">Facebook</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+              >
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <span className="sr-only">Twitter</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+              >
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+              </svg>
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <span className="sr-only">Instagram</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </Link>
+            <Link
+              href="#"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <span className="sr-only">LinkedIn</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+              >
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </Link>
           </div>
         </div>
       </div>
-
-      {/* All Rights Reserved */}
-
-      <div className="pb-24 px-4">
-        <h3 className="text-center text-slate-50">
-          @2025 - All Rights Reserved by{" "}
-          <Link href="https://idriss.douiri.org/" target="_blank">
-            {" "}
-            idriss.douiri.org
-          </Link>
-        </h3>
-      </div>
-    </div>
+    </footer>
   );
 };
+
 export default Footer;

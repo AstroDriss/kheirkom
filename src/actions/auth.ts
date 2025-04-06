@@ -1,7 +1,11 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { loginSchema, signUpSchema } from "@/utils/validations/auth";
+import {
+  associationFormSchema,
+  donorFormSchema,
+  loginSchema,
+} from "@/utils/validations/auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -55,33 +59,69 @@ export async function login(email: string, password: string) {
   redirect("/");
 }
 
-export async function signup(data: unknown) {
+export async function signupAssociation(data: unknown) {
   const supabase = await createClient();
 
-  const parsedData = signUpSchema.safeParse(data);
-  if (!parsedData.success) {
-    return parsedData.error.format();
-  }
+  const parsedData = associationFormSchema.safeParse(data);
+  if (!parsedData.success) return parsedData.error.format();
 
-  const { email, password, role, location, firstName, lastName } =
-    parsedData.data;
+  const {
+    firstName,
+    password,
+    location,
+    email,
+    about,
+    phone,
+    registrationNumber,
+    type,
+    website,
+    customType,
+  } = parsedData.data;
 
   const { data: user, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
-        role,
+        role: "association",
         firstName,
-        lastName: lastName || null,
-        location: location || null,
+        location,
+        phone_number: phone,
+        about,
+        type: type === "other" ? customType : type,
+        website_url: website,
+        registration_number: registrationNumber,
       },
     },
   });
 
-  console.log({ user, error });
   if (error) return error.message;
+  revalidatePath("/", "layout");
+  redirect(`/confirm-email?email=${user.user?.email}`);
+}
 
+export async function signupUser(data: unknown) {
+  const supabase = await createClient();
+
+  const parsedData = donorFormSchema.safeParse(data);
+  if (!parsedData.success) return parsedData.error.format();
+
+  const { firstName, password, location, email, lastName } = parsedData.data;
+
+  const { data: user, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        role: "user",
+        firstName,
+        lastName,
+        location,
+      },
+    },
+  });
+
+  if (error) return error.message;
   revalidatePath("/", "layout");
   redirect(`/confirm-email?email=${user.user?.email}`);
 }

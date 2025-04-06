@@ -1,20 +1,45 @@
 import Hero from "@/components/Hero";
-import Companies from "@/components/Companies";
 import Footer from "@/components/Footer";
 import AboutSection from "@/components/AboutSection";
-import TeamSection from "@/components/TeamSection";
 import LastCallToAction from "@/components/LastCallToAction";
-import RecentPosts from "@/components/RecentPosts";
+import HowItWorks from "./landing/HowItWorks";
+import FAQ from "./landing/FAQ";
 
 export default async function Home() {
   return (
     <>
-      <div className="wrapper h-full">
+      <div className="wrapper">
         <Hero />
-        <Companies />
+
+        {/* Stats Section */}
+        <section className="py-12 md:py-16">
+          <div className="container px-4 md:px-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+              <div className="space-y-2">
+                <h3 className="text-3xl font-bold text-rose-600">0</h3>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Registered Associations
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-3xl font-bold text-rose-600">5+</h3>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Active Donors
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-3xl font-bold text-rose-600">0</h3>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Items Donated
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <HowItWorks />
         <AboutSection />
-        <TeamSection />
-        <RecentPosts />
+        <FAQ />
       </div>
       <LastCallToAction />
       <Footer />

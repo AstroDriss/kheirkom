@@ -22,7 +22,7 @@ const ChatInfo = ({ chatId }: Props) => {
       if (data) setChat(data);
     };
     fetchChat();
-  }, []);
+  }, [chatId]);
 
   if (!chat) return;
   const chatPartner = chat.user_1.id === user?.id ? chat.user_2 : chat.user_1;

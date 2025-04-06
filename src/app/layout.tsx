@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Kheirkom",
-  description: "your small contribution can make someone happy - Kheirkom",
+  description:
+    "A platform where associations post their needs and people can donate items, share their contributions, and inspire others.",
 };
 
 export default async function RootLayout({

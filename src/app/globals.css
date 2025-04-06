@@ -124,3 +124,7 @@
     margin-block: 7rem;
   }
 }
+button,
+a {
+  @apply cursor-pointer;
+}

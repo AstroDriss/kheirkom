@@ -1,11 +1,30 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -15,218 +34,461 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { signup } from "@/actions/auth";
-import Link from "next/link";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { signUpSchema } from "@/utils/validations/auth";
-import { useState } from "react";
+  associationFormSchema,
+  donorFormSchema,
+} from "@/utils/validations/auth";
+import { signupAssociation, signupUser } from "@/actions/auth";
 
-const SignUp = () => {
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+export default function SignUpPage() {
+  const [activeTab, setActiveTab] = useState("user");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Donor form
+  const donorForm = useForm<z.infer<typeof donorFormSchema>>({
+    resolver: zodResolver(donorFormSchema),
     defaultValues: {
-      role: "user",
       firstName: "",
       lastName: "",
-      location: "",
       email: "",
       password: "",
       confirmPassword: "",
+      location: "",
     },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+  // Association form
+  const associationForm = useForm<z.infer<typeof associationFormSchema>>({
+    resolver: zodResolver(associationFormSchema),
+    defaultValues: {
+      firstName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      about: "",
+      website: "",
+      phone: "",
+      location: "",
+      type: "",
+      customType: "",
+      registrationNumber: "",
+    },
+  });
+
+  async function onDonorSubmit(values: z.infer<typeof donorFormSchema>) {
     setIsSubmitting(true);
-
-    const error = await signup(values);
-
+    const error = await signupUser(values);
     if (error) alert(error);
-
+    else alert("Donor registration successful!");
     setIsSubmitting(false);
   }
 
-  const userType = form.watch("role");
+  async function onAssociationSubmit(
+    values: z.infer<typeof associationFormSchema>
+  ) {
+    setIsSubmitting(true);
+    const error = await signupAssociation(values);
+    if (error) alert(error);
+    else alert("Association registration successful!");
+    setIsSubmitting(false);
+  }
+
+  const associationType = associationForm.watch("type");
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <Card className="w-[350px] mx-auto">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
-          <CardDescription>
-            Enter your credentials to create an account
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center gap-2 mb-4">
-                      <FormLabel>What are you?</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                          }}
-                          value={field.value}
-                        >
-                          <SelectTrigger className="flex-1">
-                            <SelectValue placeholder="account type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="user">Individual</SelectItem>
-                            <SelectItem value="association">
-                              Association
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {userType == "association" ? (
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Association Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Association Name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                <div className="flex gap-2">
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="first name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="last name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              )}
-
-              <div className="mb-6">
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Location {userType == "user" && "(optional)"}
-                      </FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="address" />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="email@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="password" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button className="cursor-pointer" disabled={isSubmitting}>
-                {isSubmitting ? "loading..." : "Sign Up"}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-        <CardFooter>
-          <p>
-            already have account?{" "}
-            <Link href="/login" className="underline">
-              Login here.
-            </Link>
+    <div className="min-h-screen flex-1 flex items-center justify-center p-4 md:p-8">
+      <div className="w-full max-w-4xl">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Join Kheirkom
+          </h1>
+          <p className="mt-4 text-muted-foreground md:text-xl">
+            Create an account to start making a difference
           </p>
-        </CardFooter>
-      </Card>
+        </div>
+
+        <Tabs
+          defaultValue="user"
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full"
+        >
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="user">Sign Up as Donor</TabsTrigger>
+            <TabsTrigger value="association">
+              Sign Up as Association
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Donor Registration Form */}
+          <TabsContent value="user">
+            <Card>
+              <CardHeader>
+                <CardTitle>Donor Registration</CardTitle>
+                <CardDescription>
+                  Create an account to browse causes, donate items, and share
+                  your impact
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Form {...donorForm}>
+                  <form
+                    onSubmit={donorForm.handleSubmit(onDonorSubmit)}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={donorForm.control}
+                        name="firstName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>First Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="John" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={donorForm.control}
+                        name="lastName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Last Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Doe" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={donorForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={donorForm.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirm Password</FormLabel>
+                            <FormControl>
+                              <Input type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={donorForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="john.doe@example.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={donorForm.control}
+                        name="location"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Location</FormLabel>
+                            <FormControl>
+                              <Input placeholder="City, Country" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-rose-600 hover:bg-rose-700"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Creating..." : "Create Donor Account"}
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+              <CardFooter className="flex justify-center">
+                <p className="text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link href="/login" className="text-rose-600 hover:underline">
+                    Sign in
+                  </Link>
+                </p>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+
+          {/* Association Registration Form */}
+          <TabsContent value="association">
+            <Card>
+              <CardHeader>
+                <CardTitle>Association Registration</CardTitle>
+                <CardDescription>
+                  Create an account to post your organization&apos;s needs and
+                  connect with donors
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Form {...associationForm}>
+                  <form
+                    onSubmit={associationForm.handleSubmit(onAssociationSubmit)}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={associationForm.control}
+                        name="firstName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Organization Name</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Helping Hands Foundation"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={associationForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="contact@organization.org"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={associationForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={associationForm.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirm Password</FormLabel>
+                            <FormControl>
+                              <Input type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={associationForm.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone Number</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="+1 (555) 123-4567"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={associationForm.control}
+                        name="website"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Website (Optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="https://www.organization.org"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="md:col-span-2">
+                        <FormField
+                          control={associationForm.control}
+                          name="location"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Address</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="123 Main St, City, Country"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <FormField
+                          control={associationForm.control}
+                          name="type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Organization Type</FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select organization type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="nonprofit">
+                                    Nonprofit Organization
+                                  </SelectItem>
+                                  <SelectItem value="charity">
+                                    Registered Charity
+                                  </SelectItem>
+                                  <SelectItem value="educational">
+                                    Educational Institution
+                                  </SelectItem>
+                                  <SelectItem value="religious">
+                                    Religious Organization
+                                  </SelectItem>
+                                  <SelectItem value="community">
+                                    Community Group
+                                  </SelectItem>
+                                  <SelectItem value="other">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* show custom option */}
+                        {associationType === "other" && (
+                          <FormField
+                            control={associationForm.control}
+                            name="customType"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Type</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="Please specify"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        )}
+                      </div>
+
+                      <FormField
+                        control={associationForm.control}
+                        name="registrationNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Registration Number</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Charity/Nonprofit Registration ID"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="md:col-span-2">
+                        <FormField
+                          control={associationForm.control}
+                          name="about"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Organization Description</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Tell us about your organization, mission, and the communities you serve..."
+                                  className="min-h-[120px]"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-rose-600 hover:bg-rose-700"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting
+                        ? "Creating..."
+                        : "Create Association Account"}
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+              <CardFooter className="flex justify-center">
+                <p className="text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link href="/login" className="text-rose-600 hover:underline">
+                    Sign in
+                  </Link>
+                </p>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
-};
-
-export default SignUp;
+}
