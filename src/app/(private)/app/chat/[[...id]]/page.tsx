@@ -7,13 +7,15 @@ const ChatApp = async ({ params }: { params: Promise<{ id: string[] }> }) => {
   const chatId = Number(id?.[0]);
 
   return (
-    <div className="grid md:grid-cols-[200px_1fr] wrapper">
-      <aside className={`h-full ${chatId ? "hidden md:block" : ""}`}>
+    <div className="grid md:grid-cols-[350px_1fr] wrapper">
+      <aside
+        className={`h-full bg-background ${chatId ? "hidden md:block" : ""}`}
+      >
         <ChatList chatId={chatId} />
       </aside>
 
       <div
-        className={`h-[calc(100dvh_-_61px)] grid-rows-[auto_1fr_auto] ${
+        className={`h-[calc(100dvh_-_61px)] grid-rows-[auto_1fr_auto] rounded-md border ${
           chatId ? "grid" : "hidden md:grid"
         }`}
       >

@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/auth";
 import AppNav from "@/components/Nav/AppNav";
-import AuthProvider from "@/context/AuthProvider";
+import AuthProviderWrapper from "@/utils/AuthProviderWrapper";
 
 export default async function AppLayout({
   children,
@@ -13,7 +13,7 @@ export default async function AppLayout({
     <div className="bg-gray-100 min-h-full flex flex-col">
       <AppNav user={user} />
       <main className="flex-grow">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProviderWrapper user={user}>{children}</AuthProviderWrapper>
       </main>
     </div>
   );

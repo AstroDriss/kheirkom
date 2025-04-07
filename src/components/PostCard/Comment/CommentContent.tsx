@@ -31,14 +31,14 @@ const CommentContent = ({ comment, user_id }: Props) => {
             <AvatarFallback>{comment.user.first_name[0]}</AvatarFallback>
           </Avatar>
 
-          <div>
+          <div className="flex gap-2 items-center">
             <p className="font-semibold">
               <Link href={`/app/profile/${comment.user.id}`}>
                 {isUsersComment ? "You" : comment.user.first_name}
               </Link>
             </p>
 
-            <p className="text-gray-400">
+            <p className="text-muted-foreground text-sm">
               <time dateTime={comment.created_at}>
                 {formatDistanceToNow(comment.created_at, {
                   addSuffix: true,

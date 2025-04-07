@@ -13,7 +13,7 @@ const ProfilePage = async ({ params }: Props) => {
   if (!user) return notFound();
 
   return (
-    <div className="wrapper">
+    <div className="wrapper pt-3">
       <ProfileInfo user={user} />
     </div>
   );

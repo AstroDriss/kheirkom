@@ -51,7 +51,7 @@ export default function ChatWindow({ chatId }: Props) {
           <ChatMessage
             key={msg.id}
             isFromUser={user?.id === msg.sender_id}
-            content={msg.content}
+            message={msg}
           />
         ))}
 
