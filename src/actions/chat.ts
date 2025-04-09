@@ -45,15 +45,20 @@ export const getChatId = async (user1: string, user2: string) => {
   redirect(`/app/chat/${newChat.id}`);
 };
 
-export const fetchMessages = async (chatId: number) => {
+export const fetchMessages = async (chatId: number, beforeTime?: string) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  const query = supabase
     .from("messages")
     .select("*")
     .eq("chat_id", chatId)
     .order("created_at", { ascending: true });
 
+  if (beforeTime) {
+    query.lt("created_at", beforeTime);
+  }
+
+  const { data, error } = await query;
   if (error) return { error };
 
   return { data };

@@ -38,9 +38,14 @@ import {
   donorFormSchema,
 } from "@/utils/validations/auth";
 import { signupAssociation, signupUser } from "@/actions/auth";
+import { useSearchParams } from "next/navigation";
 
 export default function SignUpPage() {
-  const [activeTab, setActiveTab] = useState("user");
+  const searchParams = useSearchParams();
+  const isSignAsAssociation = searchParams.get("as") === "association";
+  const [activeTab, setActiveTab] = useState(
+    isSignAsAssociation ? "association" : "user"
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Donor form
@@ -396,6 +401,9 @@ export default function SignUpPage() {
                                   <SelectItem value="religious">
                                     Religious Organization
                                   </SelectItem>
+                                  <SelectItem value="school club">
+                                    School Club
+                                  </SelectItem>
                                   <SelectItem value="community">
                                     Community Group
                                   </SelectItem>
@@ -428,22 +436,24 @@ export default function SignUpPage() {
                         )}
                       </div>
 
-                      <FormField
-                        control={associationForm.control}
-                        name="registrationNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Registration Number</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Charity/Nonprofit Registration ID"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      {associationType !== "school club" && (
+                        <FormField
+                          control={associationForm.control}
+                          name="registrationNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Registration Number</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Charity/Nonprofit Registration ID"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
                       <div className="md:col-span-2">
                         <FormField
                           control={associationForm.control}
