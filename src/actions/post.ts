@@ -81,7 +81,7 @@ export const fetchPost = async (post_id: number) => {
     created_at, 
     images (images_url), 
     post_analytics (likes_count, comments_count),
-    user:users(id, first_name, last_name, profile_image),
+    user:users(id, first_name, last_name, profile_image, is_verified),
     user_liked:likes(user_id)
   `
       )
@@ -95,7 +95,7 @@ export const fetchPost = async (post_id: number) => {
         `id, content, created_at,
     images (images_url),
     post_analytics!inner (likes_count, comments_count),
-    user:users(id, first_name, last_name, profile_image)`
+    user:users(id, first_name, last_name, profile_image, is_verified)`
       )
       .eq("id", post_id)
       .single();
@@ -136,7 +136,7 @@ export const fetchPosts = async ({
     created_at, 
     images (images_url), 
     post_analytics (likes_count, comments_count),
-    user:users(id, first_name, last_name, profile_image),
+    user:users(id, first_name, last_name, profile_image, is_verified),
     user_liked:likes(user_id)
   `
       )
@@ -150,7 +150,7 @@ export const fetchPosts = async ({
         `id, content, created_at,
     images (images_url),
     post_analytics!inner (likes_count, comments_count),
-    user:users(id, first_name, last_name, profile_image)`
+    user:users(id, first_name, last_name, profile_image, is_verified)`
       )
       .order("created_at", { ascending: false })
       .limit(limit);

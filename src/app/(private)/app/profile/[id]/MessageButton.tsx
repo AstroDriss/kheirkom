@@ -22,7 +22,8 @@ function Submit() {
 }
 
 const MessageButton = ({ user_id }: Props) => {
-  const user = use(authContext);
+  const auth = use(authContext);
+  const user = auth?.user;
 
   if (!user) return null;
   if (user.id === user_id) return null;

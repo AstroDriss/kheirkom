@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import LikeButton from "./LikeButton";
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
+import { CheckCircle2, MessageCircle } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { PostWithDetails } from "@/actions/post";
 
@@ -22,10 +22,17 @@ const index = ({ post, user_id }: Props) => {
           </Avatar>
 
           <div className="flex flex-col ml-3">
-            <p className="text-sm font-semibold">
+            <p className="text-sm font-semibold flex items-center gap-1">
               <Link href={`/app/profile/${post.user.id}`}>
                 {post.user.first_name} {post.user.last_name}
               </Link>
+
+              {post.user.is_verified && (
+                <CheckCircle2
+                  aria-label="verified association"
+                  className="text-blue-500 w-4"
+                />
+              )}
             </p>
             <p className="text-xs text-muted-foreground">
               {formatDistanceToNow(post.created_at, { addSuffix: true })}

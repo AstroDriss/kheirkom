@@ -126,7 +126,8 @@ const Footer = () => {
               </svg>
             </Link>
             <Link
-              href="#"
+              href="https://www.instagram.com/kheirkom_officiel/"
+              target="_blank"
               className="text-muted-foreground hover:text-foreground"
             >
               <span className="sr-only">Instagram</span>

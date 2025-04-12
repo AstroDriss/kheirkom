@@ -18,7 +18,8 @@ export default function ChatWindow({ chatId }: Props) {
   const [initialMessages, setInitialMessages] = useState<Tables<"messages">[]>(
     []
   );
-  const user = use(authContext);
+  const auth = use(authContext);
+  const user = auth?.user;
 
   useEffect(() => {
     if (!chatId) return;

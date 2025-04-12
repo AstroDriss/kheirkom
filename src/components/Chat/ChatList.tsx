@@ -11,7 +11,8 @@ interface Props {
 
 const ChatList = ({ chatId }: Props) => {
   const [chats, setChats] = useState<ChatWithUser[]>([]);
-  const user = use(authContext);
+  const auth = use(authContext);
+  const user = auth?.user;
 
   useEffect(() => {
     const loadChats = async () => {

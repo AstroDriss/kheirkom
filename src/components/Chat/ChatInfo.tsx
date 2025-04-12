@@ -12,7 +12,8 @@ interface Props {
 }
 
 const ChatInfo = ({ chatId }: Props) => {
-  const user = use(authContext);
+  const auth = use(authContext);
+  const user = auth?.user;
   const [chat, setChat] = useState<ChatWithUser | null>(null);
 
   useEffect(() => {
