@@ -9,20 +9,20 @@ interface Props {
 }
 
 const AppNav = ({ user }: Props) => {
-  if (!user) return;
-
   return (
-    <header className="border-b bg-white">
+    <header className="border-b bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex py-2 justify-between items-center px-4">
         <Link href="/" prefetch={false}>
           <Logo height={40} />
           <span className="sr-only">Kheirkom</span>
         </Link>
 
-        <div className="flex gap-3 items-center">
-          <PostButton />
-          <ProfileDropdown user={user} />
-        </div>
+        {user && (
+          <div className="flex gap-3 items-center">
+            <PostButton />
+            <ProfileDropdown user={user} />
+          </div>
+        )}
       </div>
     </header>
   );

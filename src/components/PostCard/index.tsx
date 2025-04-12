@@ -57,7 +57,7 @@ const index = ({ post, user_id }: Props) => {
           href={`/app/post/${post.id}#comments`}
         >
           <MessageCircle className="w-5" />
-          {post.post_analytics?.comments_count || 0}
+          {post.post_analytics?.comments_count}
           <span className="sr-only">Comments</span>
         </Link>
       </CardFooter>

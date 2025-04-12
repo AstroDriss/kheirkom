@@ -43,8 +43,10 @@ export async function updateSession(request: NextRequest) {
   const isAppRoute = pathname.startsWith("/app");
   const isAuthRoute = ["/login", "/signup"].includes(pathname);
 
+  const isPublicPostRoute = /^\/app\/post\/[^/]+$/.test(pathname);
+
   // If the user is not authenticated and tries to access /app, redirect to login
-  if (!user && isAppRoute) {
+  if (!user && !isPublicPostRoute && isAppRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

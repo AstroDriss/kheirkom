@@ -14,8 +14,8 @@ import { Textarea } from "../ui/textarea";
 import { post } from "@/actions/post";
 import { ImageIcon, Loader2, Plus, X } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
-// TODO: Show a Toast message on success or error
 const PostButton = () => {
   const [open, setOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>();
@@ -75,12 +75,13 @@ const PostButton = () => {
 
       const { error, success } = await post(formData);
 
-      if (error) alert(error);
+      if (error) toast.error(error);
 
       if (success) {
         setOpen(false);
         setContent("");
         setPreviewUrl(null);
+        toast.success("post has been created");
       }
     }
     setSubmitting(false);
@@ -89,7 +90,7 @@ const PostButton = () => {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer">
+        <Button variant="outline" className="cursor-pointer">
           <Plus />
           Post
         </Button>

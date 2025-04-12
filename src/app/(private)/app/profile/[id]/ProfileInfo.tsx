@@ -1,7 +1,8 @@
-import { Check } from "lucide-react";
+import { Check, MapPin } from "lucide-react";
 import { Tables } from "../../../../../../database.types";
 import MessageButton from "./MessageButton";
 import UserAvatar from "./UserAvatar";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   user: Tables<"users">;
@@ -9,10 +10,10 @@ interface Props {
 const ProfileInfo = ({ user }: Props) => {
   return (
     <section className="p-4 rounded-3xl bg-white">
-      <div className="flex items-start gap-4">
+      <div className="flex flex-col md:flex-row items-start max-[31rem]:items-center gap-4">
         <UserAvatar user={user} />
 
-        <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
+        <div className="flex flex-col min-[31rem]:flex-row items-center justify-between w-full gap-4">
           <div>
             <h1 className="font-semibold text-3xl flex items-center gap-2">
               {user.first_name} {user.last_name}
@@ -24,10 +25,12 @@ const ProfileInfo = ({ user }: Props) => {
               )}
             </h1>
             <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-              {user.role === "association" && (
-                <p className="px-2 py-1.5 rounded-2xl bg-accent">Association</p>
+              {user.role === "association" && <Badge>Association</Badge>}
+              {user.location && (
+                <p className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4" /> {user.location}
+                </p>
               )}
-              <p>{user.location}</p>
             </div>
           </div>
 

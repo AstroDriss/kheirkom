@@ -52,7 +52,7 @@ const CommentContent = ({ comment, user_id }: Props) => {
         <p>{comment.content}</p>
 
         {/* reply */}
-        {!isUsersComment && !replyingTo && (
+        {!isUsersComment && !replyingTo && user_id && (
           <Button
             onClick={() => setReplyingTo(comment.user.first_name)}
             variant="ghost"

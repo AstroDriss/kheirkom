@@ -4,6 +4,7 @@ import AboutSection from "@/components/AboutSection";
 import LastCallToAction from "@/components/LastCallToAction";
 import HowItWorks from "./landing/HowItWorks";
 import FAQ from "./landing/FAQ";
+import RecentPosts from "./landing/RecentPosts";
 
 export default async function Home() {
   return (
@@ -39,6 +40,7 @@ export default async function Home() {
 
         <HowItWorks />
         <AboutSection />
+        <RecentPosts />
         <FAQ />
       </div>
       <LastCallToAction />

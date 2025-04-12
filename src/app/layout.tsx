@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default async function RootLayout({
       >
         <NextTopLoader showSpinner={false} />
         <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Toaster richColors />
       </body>
       <GoogleAnalytics gaId="G-9P4WEQEXLT" />
     </html>

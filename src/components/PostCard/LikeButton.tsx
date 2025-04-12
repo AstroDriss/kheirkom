@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 
 import { useOptimistic, useState } from "react";
 import { Heart } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   user_id: string | null;
@@ -31,7 +32,10 @@ const LikeButton = ({ post, user_id }: Props) => {
   );
 
   const formAction = async () => {
-    if (!user_id) return;
+    if (!user_id) {
+      toast.error("You must be logged in to like a post");
+      return;
+    }
     addOptimisticLikes({
       likes: optimisticLikes.likes + (optimisticLikes.liked ? -1 : 1),
       liked: !optimisticLikes.liked,
@@ -51,7 +55,7 @@ const LikeButton = ({ post, user_id }: Props) => {
             optimisticLikes.liked ? "fill-red-500 text-red-500" : ""
           }`}
         />
-        {optimisticLikes.likes}
+        {optimisticLikes.likes > 0 && optimisticLikes.likes}
         <span className="sr-only">
           {optimisticLikes.likes === 1 ? "like" : "likes"}
         </span>

@@ -14,7 +14,7 @@ function Submit() {
   const { pending } = useFormStatus();
 
   return (
-    <Button className="cursor-pointer" variant="ghost" disabled={pending}>
+    <Button className="cursor-pointer" variant="secondary" disabled={pending}>
       <MessageCircle />
       {pending ? "Loading..." : "Message"}
     </Button>
