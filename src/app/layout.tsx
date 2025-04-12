@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 import ReactQueryProvider from "@/utils/ReactQueryProvider";
@@ -34,6 +35,7 @@ export default async function RootLayout({
         <NextTopLoader showSpinner={false} />
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
+      <GoogleAnalytics gaId="G-9P4WEQEXLT" />
     </html>
   );
 }
