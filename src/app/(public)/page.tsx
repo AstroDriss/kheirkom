@@ -16,13 +16,13 @@ export default async function Home() {
           <div className="container px-4 md:px-6">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
               <div className="space-y-2">
-                <h3 className="text-3xl font-bold text-rose-600">1+</h3>
+                <h3 className="text-3xl font-bold text-rose-600">2+</h3>
                 <p className="text-sm font-medium text-muted-foreground">
                   Registered Associations
                 </p>
               </div>
               <div className="space-y-2">
-                <h3 className="text-3xl font-bold text-rose-600">5+</h3>
+                <h3 className="text-3xl font-bold text-rose-600">7+</h3>
                 <p className="text-sm font-medium text-muted-foreground">
                   Active Donors
                 </p>

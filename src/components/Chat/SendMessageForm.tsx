@@ -13,11 +13,18 @@ export default function SendMessageForm({
   userId: string;
 }) {
   const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
 
-  const handleSend = async () => {
-    if (message.trim()) {
-      await sendMessage(chatId, userId, message);
-      setMessage("");
+  const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSending(true);
+    try {
+      if (message.trim()) {
+        await sendMessage(chatId, userId, message);
+        setMessage("");
+      }
+    } finally {
+      setSending(false);
     }
   };
 
@@ -30,7 +37,7 @@ export default function SendMessageForm({
         aria-label="type a message"
         placeholder="Type a message..."
       />
-      <Button size="icon">
+      <Button disabled={sending} size="icon">
         <Send className="h-4 w-4" />
         <span className="sr-only">Send message</span>
       </Button>

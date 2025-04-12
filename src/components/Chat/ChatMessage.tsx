@@ -1,6 +1,7 @@
 import { format } from "date-fns/format";
 import { Tables } from "../../../database.types";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface Props {
   isFromUser: boolean;
@@ -8,6 +9,27 @@ interface Props {
 }
 
 export const ChatMessage = ({ isFromUser, message }: Props) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  const renderMessage = (text: string) => {
+    return text.split(urlRegex).map((part, index) => {
+      if (urlRegex.test(part)) {
+        return (
+          <Link
+            className="text-blue-800"
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {part}
+          </Link>
+        );
+      }
+      return part;
+    });
+  };
+
   return (
     <div className={`${isFromUser ? "ml-auto" : "mr-auto"}`}>
       <p
@@ -17,7 +39,7 @@ export const ChatMessage = ({ isFromUser, message }: Props) => {
             : "rounded-br-3xl bg-accent"
         }`}
       >
-        {message.content}
+        {renderMessage(message.content)}
       </p>
       <span
         className={cn(

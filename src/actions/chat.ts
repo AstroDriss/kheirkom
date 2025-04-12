@@ -91,7 +91,10 @@ export const fetchUserChats = async (user_id: string) => {
     .select(
       "id, last_message, last_message_at,user_1:users!user_1(id, first_name, profile_image), user_2:users!user_2(id, first_name, profile_image)"
     )
-    .or(`user_1.eq.${user_id},user_2.eq.${user_id}`);
+    .or(`user_1.eq.${user_id},user_2.eq.${user_id}`)
+    .order("last_message_at", {
+      ascending: false,
+    });
 
   if (error) return [];
   return data;
