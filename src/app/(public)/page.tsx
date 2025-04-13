@@ -23,7 +23,7 @@ export default async function Home() {
                 </p>
               </div>
               <div className="space-y-2">
-                <h3 className="text-3xl font-bold text-rose-600">7+</h3>
+                <h3 className="text-3xl font-bold text-rose-600">8+</h3>
                 <p className="text-sm font-medium text-muted-foreground">
                   Active Donors
                 </p>

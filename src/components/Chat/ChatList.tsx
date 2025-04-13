@@ -34,6 +34,14 @@ const ChatList = ({ chatId }: Props) => {
           const chatPartner =
             chat.user_1.id === user?.id ? chat.user_2 : chat.user_1;
 
+          const read = chat.chat_reads?.find((r) => r.user_id === user?.id);
+
+          const has_unread =
+            (!read ||
+              !chat.last_message_at ||
+              new Date(chat.last_message_at) > new Date(read.last_read_at)) &&
+            chat.last_message_sender_id !== user?.id;
+
           return (
             <li key={chat.id}>
               <Link
@@ -43,9 +51,15 @@ const ChatList = ({ chatId }: Props) => {
                   chatId === chat.id ? "bg-muted" : "bg-background"
                 } block py-2 px-3 rounded-md`}
               >
-                <h3 className="font-medium truncate">
-                  {chatPartner.first_name}
-                </h3>
+                <div className="flex items-center gap-2 justify-between">
+                  <h3 className="font-medium truncate">
+                    {chatPartner.first_name}
+                  </h3>
+
+                  {has_unread && chatId !== chat.id && (
+                    <span className="w-2 h-2 rounded-full bg-primary" />
+                  )}
+                </div>
 
                 <p className="flex items-center justify-between">
                   <span className="text-muted-foreground truncate">

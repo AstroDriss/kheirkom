@@ -2,22 +2,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export type ChatWithUser = {
-  id: number;
-  last_message: string | null;
-  last_message_at: string | null;
-  user_1: {
-    id: string;
-    first_name: string;
-    profile_image: string | null;
-  };
-  user_2: {
-    id: string;
-    first_name: string;
-    profile_image: string | null;
-  };
-};
-
 export const getChatId = async (user1: string, user2: string) => {
   const supabase = await createClient();
 
@@ -89,7 +73,7 @@ export const fetchUserChats = async (user_id: string) => {
   const { data, error } = await supabase
     .from("chats")
     .select(
-      "id, last_message, last_message_at,user_1:users!user_1(id, first_name, profile_image), user_2:users!user_2(id, first_name, profile_image)"
+      "id, last_message, last_message_sender_id, last_message_at, chat_reads!left(chat_id, user_id, last_read_at),user_1:users!user_1(id, first_name, profile_image), user_2:users!user_2(id, first_name, profile_image)"
     )
     .or(`user_1.eq.${user_id},user_2.eq.${user_id}`)
     .order("last_message_at", {
@@ -98,6 +82,21 @@ export const fetchUserChats = async (user_id: string) => {
 
   if (error) return [];
   return data;
+};
+export type ChatWithUser = NonNullable<
+  Awaited<ReturnType<typeof fetchUserChats>>[0]
+>;
+
+export const updateChatRead = async (chat_id: number, user_id?: string) => {
+  if (!user_id) return;
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("chat_reads").upsert({
+    chat_id,
+    user_id,
+  });
+
+  return { error };
 };
 
 export const fetchChatById = async (chatId: number) => {

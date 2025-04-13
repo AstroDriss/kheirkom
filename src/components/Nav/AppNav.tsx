@@ -3,6 +3,7 @@ import Logo from "@/assets/Logo";
 import { Tables } from "../../../database.types";
 import ProfileDropdown from "../ProfileDropdown";
 import PostButton from "../upload/PostButton";
+import { ChatLink } from "./ChatLink";
 
 interface Props {
   user: Tables<"users"> | null;
@@ -19,6 +20,7 @@ const AppNav = ({ user }: Props) => {
 
         {user && (
           <div className="flex gap-3 items-center">
+            <ChatLink />
             <PostButton />
             <ProfileDropdown user={user} />
           </div>

@@ -2,10 +2,11 @@
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types";
+import { updateChatRead } from "@/actions/chat";
 
 const supabase = createClient();
 
-export function useChatMessages(chatId: number | null) {
+export function useChatMessages(chatId: number | null, userId?: string) {
   const [messages, setMessages] = useState<Tables<"messages">[]>([]);
 
   useEffect(() => {
@@ -22,7 +23,12 @@ export function useChatMessages(chatId: number | null) {
           filter: `chat_id=eq.${chatId}`,
         },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new as Tables<"messages">]);
+          const messages = payload.new as Tables<"messages">;
+          setMessages((prev) => [...prev, messages]);
+
+          if (messages.sender_id !== userId) {
+            updateChatRead(chatId, userId);
+          }
         }
       )
       .subscribe();
@@ -30,7 +36,7 @@ export function useChatMessages(chatId: number | null) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [chatId]);
+  }, [chatId, userId]);
 
   return messages;
 }

@@ -1,5 +1,5 @@
 "use client";
-import { fetchMessages } from "@/actions/chat";
+import { fetchMessages, updateChatRead } from "@/actions/chat";
 import { useChatMessages } from "@/hooks/useChatMessages";
 import { use, useEffect, useState } from "react";
 import SendMessageForm from "./SendMessageForm";
@@ -14,12 +14,12 @@ interface Props {
 }
 
 export default function ChatWindow({ chatId }: Props) {
-  const realTimeMessages = useChatMessages(chatId);
+  const auth = use(authContext);
+  const user = auth?.user;
+  const realTimeMessages = useChatMessages(chatId, user?.id);
   const [initialMessages, setInitialMessages] = useState<Tables<"messages">[]>(
     []
   );
-  const auth = use(authContext);
-  const user = auth?.user;
 
   useEffect(() => {
     if (!chatId) return;
@@ -28,6 +28,7 @@ export default function ChatWindow({ chatId }: Props) {
       const { data: messages, error } = await fetchMessages(chatId);
 
       if (error) return notFound();
+      await updateChatRead(chatId, user?.id);
 
       setInitialMessages(messages);
     };
