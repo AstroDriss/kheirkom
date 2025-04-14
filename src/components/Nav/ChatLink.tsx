@@ -7,7 +7,7 @@ export const ChatLink = () => {
   const hasUnread = useHasUnreadChats();
 
   return (
-    <Link href="/chats" className="relative">
+    <Link href="/app/chat" className="relative">
       <MessageCircle className="h-6 w-6" />
       <span className="sr-only">Messages</span>
       {hasUnread && (
