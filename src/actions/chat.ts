@@ -13,10 +13,9 @@ export const getChatId = async (user1: string, user2: string) => {
     )
     .single();
 
-  console.log(chat, error);
   if (error && error.code !== "PGRST116") return { error: error.message };
 
-  if (chat?.id) redirect(`/app/chat/${chat.id}`);
+  if (chat?.id) return redirect(`/app/chat/${chat.id}`);
 
   const { data: newChat, error: insertionError } = await supabase
     .from("chats")
@@ -25,6 +24,8 @@ export const getChatId = async (user1: string, user2: string) => {
     .single();
 
   if (insertionError) return { error: insertionError.message };
+
+  await updateChatReadsForNewChat(newChat.id, [user1, user2]);
 
   redirect(`/app/chat/${newChat.id}`);
 };
@@ -86,6 +87,28 @@ export const fetchUserChats = async (user_id: string) => {
 export type ChatWithUser = NonNullable<
   Awaited<ReturnType<typeof fetchUserChats>>[0]
 >;
+
+export const updateChatReadsForNewChat = async (
+  chat_id: number,
+  user_ids: [string, string]
+) => {
+  const supabase = await createClient();
+  const { error } = await supabase.from("chat_reads").upsert(
+    [
+      {
+        chat_id,
+        user_id: user_ids[0],
+      },
+      {
+        chat_id,
+        user_id: user_ids[1],
+      },
+    ],
+    { onConflict: "chat_id,user_id" }
+  );
+
+  return error?.message;
+};
 
 export const updateChatRead = async (chat_id: number, user_id?: string) => {
   if (!user_id) return;
