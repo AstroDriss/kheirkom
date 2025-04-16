@@ -68,7 +68,6 @@ export const sendMessage = async (
 };
 
 export const fetchUserChats = async (user_id: string) => {
-  "use server";
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -79,7 +78,10 @@ export const fetchUserChats = async (user_id: string) => {
     .or(`user_1.eq.${user_id},user_2.eq.${user_id}`)
     .order("last_message_at", {
       ascending: false,
-    });
+    })
+    .limit(30);
+  // const from = offset * PAGE_COUNT
+  // const to = from + PAGE_COUNT - 1
 
   if (error) return [];
   return data;
@@ -136,3 +138,7 @@ export const fetchChatById = async (chatId: number) => {
   if (error) return null;
   return data;
 };
+
+export type SingleChatWithUser = NonNullable<
+  Awaited<ReturnType<typeof fetchChatById>>
+>;

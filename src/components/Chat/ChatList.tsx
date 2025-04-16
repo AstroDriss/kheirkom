@@ -4,6 +4,7 @@ import Link from "next/link";
 import { authContext } from "@/context/AuthProvider";
 import { ChatWithUser, fetchUserChats } from "@/actions/chat";
 import { formatDistanceToNow } from "date-fns";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props {
   chatId?: number;
@@ -13,12 +14,21 @@ const ChatList = ({ chatId }: Props) => {
   const [chats, setChats] = useState<ChatWithUser[]>([]);
   const auth = use(authContext);
   const user = auth?.user;
+  const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadChats = async () => {
       if (!user) return;
-      const userChats = await fetchUserChats(user.id);
-      setChats(userChats);
+      try {
+        setLoading(true);
+        const userChats = await fetchUserChats(user.id);
+        setChats(userChats);
+      } catch {
+        setIsError(true);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadChats();
@@ -29,6 +39,15 @@ const ChatList = ({ chatId }: Props) => {
       <div className="p-4 bg-muted/50 border-b">
         <h2 className="text-lg font-semibold">Messages</h2>
       </div>
+
+      {isError && <p>Error Loading the Chat</p>}
+
+      {!isError && chats.length === 0 && !loading && (
+        <p>You Haven&apos;t Started Any conversation</p>
+      )}
+
+      {loading && <SkeletonChatList />}
+
       <ul className="p-2 space-y-2">
         {chats.map((chat) => {
           const chatPartner =
@@ -78,8 +97,34 @@ const ChatList = ({ chatId }: Props) => {
           );
         })}
       </ul>
+      {chats.length === 30 && (
+        <p className="text-muted-foreground text-center text-sm mt-4">
+          Only 30 chats are shown
+        </p>
+      )}
     </>
   );
 };
+
+function SkeletonChatList({ count = 10 }) {
+  return (
+    <ul className="p-2 space-y-2">
+      {Array.from({ length: count }).map((_, i) => (
+        <li key={i}>
+          <div className="block py-2 px-3 rounded-md bg-background">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="w-2 h-2 rounded-full" />
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <Skeleton className="h-4 w-2/3" />
+              <Skeleton className="h-3 w-12" />
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default ChatList;

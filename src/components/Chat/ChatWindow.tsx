@@ -40,7 +40,7 @@ export default function ChatWindow({ chatId }: Props) {
   if (!chatId)
     return (
       <div className="h-full flex items-center justify-center">
-        No Chat selected
+        No Chat Selected
       </div>
     );
 

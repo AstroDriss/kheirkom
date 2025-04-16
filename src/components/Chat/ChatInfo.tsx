@@ -1,5 +1,5 @@
 "use client";
-import { ChatWithUser, fetchChatById } from "@/actions/chat";
+import { fetchChatById, SingleChatWithUser } from "@/actions/chat";
 import { authContext } from "@/context/AuthProvider";
 import { use, useEffect, useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
@@ -14,7 +14,7 @@ interface Props {
 const ChatInfo = ({ chatId }: Props) => {
   const auth = use(authContext);
   const user = auth?.user;
-  const [chat, setChat] = useState<ChatWithUser | null>(null);
+  const [chat, setChat] = useState<SingleChatWithUser | null>(null);
 
   useEffect(() => {
     const fetchChat = async () => {
@@ -25,7 +25,7 @@ const ChatInfo = ({ chatId }: Props) => {
     fetchChat();
   }, [chatId]);
 
-  if (!chat) return;
+  if (!chat) return <div />;
   const chatPartner = chat.user_1.id === user?.id ? chat.user_2 : chat.user_1;
 
   return (
