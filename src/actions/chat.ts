@@ -80,6 +80,8 @@ export const fetchUserChats = async (user_id: string) => {
       ascending: false,
     })
     .limit(30);
+
+  console.log({ data, error });
   // const from = offset * PAGE_COUNT
   // const to = from + PAGE_COUNT - 1
 
