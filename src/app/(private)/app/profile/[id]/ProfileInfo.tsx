@@ -1,8 +1,9 @@
-import { Check, MapPin } from "lucide-react";
+import { Check, MapPin, Phone } from "lucide-react";
 import { Tables } from "../../../../../../database.types";
 import MessageButton from "./MessageButton";
 import UserAvatar from "./UserAvatar";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 interface Props {
   user: Tables<"users">;
@@ -39,6 +40,20 @@ const ProfileInfo = ({ user }: Props) => {
       </div>
 
       {user.about && <p className="mt-4">{user.about}</p>}
+
+      <div className="grid gap-4 grid-cols-2">
+        {user.phone_number && (
+          <p className="flex items-center gap-2 ">
+            <Phone className="w-4" />
+            {user.phone_number}
+          </p>
+        )}
+        {user.website_url && (
+          <Link href={user.website_url} className="truncate">
+            {user.website_url}
+          </Link>
+        )}
+      </div>
     </section>
   );
 };

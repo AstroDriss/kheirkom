@@ -1,17 +1,13 @@
+"use client";
 import Feed from "@/components/Feed";
-import { createClient } from "@/utils/supabase/server";
+import { authContext } from "@/context/AuthProvider";
+import { use } from "react";
 
-const AppPage = async () => {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+const AppPage = () => {
+  const auth = use(authContext);
+  const user = auth?.user;
 
-  return (
-    <div>
-      <Feed user_id={user?.id || null} />
-    </div>
-  );
+  return <Feed user_id={user?.id || null} />;
 };
 
 export default AppPage;
