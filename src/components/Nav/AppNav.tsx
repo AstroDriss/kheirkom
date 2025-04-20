@@ -19,7 +19,10 @@ const AppNav = ({ user }: Props) => {
         </Link>
 
         {user && (
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-5 items-center">
+            <Link className="md:block hidden" href="/app/associations">
+              associations
+            </Link>
             <ChatLink />
             <PostButton />
             <ProfileDropdown user={user} />
