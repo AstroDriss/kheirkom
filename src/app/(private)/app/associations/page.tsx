@@ -12,7 +12,7 @@ import MessageButton from "../profile/[id]/MessageButton";
 import Link from "next/link";
 
 // TODO: Show verified State
-const page = () => {
+const AssociationsPage = () => {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query);
   const auth = use(authContext);
@@ -128,4 +128,4 @@ const AssociationCard = ({
   );
 };
 
-export default page;
+export default AssociationsPage;
