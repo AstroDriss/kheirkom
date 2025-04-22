@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { createClient } from "@/utils/supabase/client";
 import { ResetPasswordSchema } from "@/utils/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Form, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,11 +41,17 @@ const ResetPasswordPage = () => {
   useEffect(() => {
     const supabase = createClient();
 
-    supabase.auth.onAuthStateChange(async (event) => {
-      if (event === "PASSWORD_RECOVERY") {
-        setConfirmed(true);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event) => {
+        if (event === "PASSWORD_RECOVERY") {
+          setConfirmed(true);
+        }
       }
-    });
+    );
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
   }, []);
 
   const onSubmit = async ({
