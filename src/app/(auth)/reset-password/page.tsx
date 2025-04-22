@@ -41,17 +41,13 @@ const ResetPasswordPage = () => {
   useEffect(() => {
     const supabase = createClient();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event) => {
-        if (event === "PASSWORD_RECOVERY") {
-          setConfirmed(true);
-        }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const isRecovery =
+        session?.user && session.user.email && session?.access_token;
+      if (isRecovery) {
+        setConfirmed(true);
       }
-    );
-
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
+    });
   }, []);
 
   const onSubmit = async ({
