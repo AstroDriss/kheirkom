@@ -126,6 +126,20 @@ export async function signupUser(data: unknown) {
   redirect(`/confirm-email?email=${user.user?.email}`);
 }
 
+export async function updatePassword(
+  password: string,
+  confirmPassword: string
+) {
+  if (password.trim() !== confirmPassword.trim()) return "password don't match";
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  return error?.message;
+}
+
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();

@@ -83,10 +83,15 @@ const Login = () => {
                       <Input type="password" {...field} />
                     </FormControl>
                     <FormMessage />
+                    <Button variant="link" asChild className="block">
+                      <Link href="/reset-request" className="text-end">
+                        forgot password?
+                      </Link>
+                    </Button>
                   </FormItem>
                 )}
               />
-              <Button className="cursor-pointer" disabled={isSubmitting}>
+              <Button className="w-full" disabled={isSubmitting}>
                 {isSubmitting ? "loading..." : "Log In"}
               </Button>
             </form>
