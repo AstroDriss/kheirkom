@@ -22,8 +22,9 @@ import { ResetPasswordSchema } from "@/utils/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Form } from "@/components/ui/form";
 import { z } from "zod";
 
 const ResetPasswordPage = () => {
