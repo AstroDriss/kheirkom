@@ -66,13 +66,6 @@ const ResetPasswordPage = () => {
     }
   };
 
-  if (!confirmed)
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p>unauthorized access!</p>
-      </div>
-    );
-
   return (
     <div className="flex items-center justify-center h-full">
       <Card className="w-[350px] mx-auto">
@@ -110,7 +103,11 @@ const ResetPasswordPage = () => {
                   </FormItem>
                 )}
               />
-              <Button disabled={isSubmitting}>
+              <Button
+                disabled={isSubmitting || !confirmed}
+                type="submit"
+                className="w-full"
+              >
                 {isSubmitting ? "loading..." : "Update Password"}
               </Button>
             </form>
