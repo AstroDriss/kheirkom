@@ -71,7 +71,7 @@ const ResetPasswordPage = () => {
     <div className="flex items-center justify-center h-full">
       <Card className="w-[350px] mx-auto">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
           <CardDescription>Enter your new secure email</CardDescription>
         </CardHeader>
         <CardContent>
@@ -82,9 +82,9 @@ const ResetPasswordPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>New password</FormLabel>
                     <FormControl>
-                      <Input placeholder="password" {...field} />
+                      <Input placeholder="password" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -96,9 +96,9 @@ const ResetPasswordPage = () => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Confirm new password</FormLabel>
                     <FormControl>
-                      <Input type="confirm password" {...field} />
+                      <Input type="password" placeholder="confirm password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
