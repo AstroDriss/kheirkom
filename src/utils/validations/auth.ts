@@ -43,7 +43,6 @@ export const associationFormSchema = z
       .string()
       .min(5, { message: "Please enter your organization's address." }),
     type: z.string({ required_error: "Please select an organization type." }),
-    customType: z.string().optional(),
     registrationNumber: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {

@@ -75,7 +75,6 @@ export async function signupAssociation(data: unknown) {
     registrationNumber,
     type,
     website,
-    customType,
   } = parsedData.data;
 
   const { data: user, error } = await supabase.auth.signUp({
@@ -88,7 +87,7 @@ export async function signupAssociation(data: unknown) {
         location,
         phone_number: phone,
         about,
-        type: type === "other" ? customType : type,
+        type,
         website_url: website,
         registration_number: registrationNumber,
       },

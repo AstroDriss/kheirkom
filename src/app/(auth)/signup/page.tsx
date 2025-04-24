@@ -74,7 +74,6 @@ export default function SignUpPage() {
       phone: "",
       location: "",
       type: "",
-      customType: "",
       registrationNumber: "",
     },
   });
@@ -372,69 +371,47 @@ export default function SignUpPage() {
                           )}
                         />
                       </div>
-                      <div className="flex items-center gap-3">
-                        <FormField
-                          control={associationForm.control}
-                          name="type"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Organization Type</FormLabel>
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select organization type" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="nonprofit">
-                                    Nonprofit Organization
-                                  </SelectItem>
-                                  <SelectItem value="charity">
-                                    Registered Charity
-                                  </SelectItem>
-                                  <SelectItem value="educational">
-                                    Educational Institution
-                                  </SelectItem>
-                                  <SelectItem value="religious">
-                                    Religious Organization
-                                  </SelectItem>
-                                  <SelectItem value="school club">
-                                    School Club
-                                  </SelectItem>
-                                  <SelectItem value="community">
-                                    Community Group
-                                  </SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        {/* show custom option */}
-                        {associationType === "other" && (
-                          <FormField
-                            control={associationForm.control}
-                            name="customType"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Type</FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="Please specify"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
+                      <FormField
+                        control={associationForm.control}
+                        name="type"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Organization Type</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select organization type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="nonprofit">
+                                  Nonprofit Organization
+                                </SelectItem>
+                                <SelectItem value="charity">
+                                  Registered Charity
+                                </SelectItem>
+                                <SelectItem value="educational">
+                                  Educational Institution
+                                </SelectItem>
+                                <SelectItem value="religious">
+                                  Religious Organization
+                                </SelectItem>
+                                <SelectItem value="school club">
+                                  School Club
+                                </SelectItem>
+                                <SelectItem value="community">
+                                  Community Group
+                                </SelectItem>
+                                <SelectItem value="other">Other</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
                         )}
-                      </div>
+                      />
 
                       {associationType !== "school club" && (
                         <FormField
@@ -442,7 +419,9 @@ export default function SignUpPage() {
                           name="registrationNumber"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Registration Number</FormLabel>
+                              <FormLabel>
+                                Registration Number (Optional)
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="Charity/Nonprofit Registration ID"
