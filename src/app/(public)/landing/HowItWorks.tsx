@@ -16,19 +16,22 @@ const HowItWorks = () => {
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              How Kheirkom Works
+              Comment Kheirkom Fonctionne
             </h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Our platform makes it easy to connect donors with associations in
-              need
+              Notre plateforme facilite la mise en relation des volontaires avec
+              les associations ayant besoin de soutien, permettant ainsi à
+              chacun de s&apos;engager facilement et efficacement.
             </p>
           </div>
         </div>
         <div className="mx-auto mt-12">
           <Tabs defaultValue="donors" className="w-full max-w-4xl mx-auto">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="donors">For Donors</TabsTrigger>
-              <TabsTrigger value="associations">For Associations</TabsTrigger>
+              <TabsTrigger value="donors">Pour les volontaires</TabsTrigger>
+              <TabsTrigger value="associations">
+                Pour les Associations
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="donors" className="mt-6">
               <div className="grid gap-8 md:grid-cols-3">
@@ -37,12 +40,13 @@ const HowItWorks = () => {
                     <div className="rounded-full bg-rose-100 p-3 mb-4">
                       <Search className="h-6 w-6 text-rose-600" />
                     </div>
-                    <CardTitle>Find Causes</CardTitle>
+                    <CardTitle>Trouvez des Causes</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
                     <p>
-                      Browse through announcements from associations about their
-                      current needs
+                      Parcourez les annonces des associations sur leurs besoins
+                      actuels et découvrez comment vous pouvez vous engager en
+                      tant que volontaire pour apporter votre aide.
                     </p>
                   </CardContent>
                 </Card>
@@ -51,12 +55,13 @@ const HowItWorks = () => {
                     <div className="rounded-full bg-rose-100 p-3 mb-4">
                       <Gift className="h-6 w-6 text-rose-600" />
                     </div>
-                    <CardTitle>Donate Items</CardTitle>
+                    <CardTitle>Offrir votre Temps et vos Compétences</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
                     <p>
-                      Donate your clothes, books, toys, or other items to
-                      associations in need
+                      Engagez-vous en tant que volontaire et apportez votre aide
+                      aux associations en fonction de leurs besoins : soutien,
+                      expertise, ou accompagnement.
                     </p>
                   </CardContent>
                 </Card>
@@ -65,12 +70,13 @@ const HowItWorks = () => {
                     <div className="rounded-full bg-rose-100 p-3 mb-4">
                       <Share2 className="h-6 w-6 text-rose-600" />
                     </div>
-                    <CardTitle>Share Your Impact</CardTitle>
+                    <CardTitle>Partagez votre Engagement</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
                     <p>
-                      Post about your donations and inspire others to join the
-                      movement
+                      Publiez vos actions solidaires et inspirez les autres à
+                      rejoindre le mouvement en s&apos;engageant eux aussi en
+                      tant que volontaires.
                     </p>
                   </CardContent>
                 </Card>
@@ -83,12 +89,12 @@ const HowItWorks = () => {
                     <div className="rounded-full bg-rose-100 p-3 mb-4">
                       <MessageSquare className="h-6 w-6 text-rose-600" />
                     </div>
-                    <CardTitle>Post Announcements</CardTitle>
+                    <CardTitle>Publier vos Annonces</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
                     <p>
-                      Share your organization&amp;s specific needs with our
-                      community of donors
+                      Partagez les besoins spécifiques de votre association avec
+                      notre communauté de volontaires prêts à s&apos;engager.
                     </p>
                   </CardContent>
                 </Card>
@@ -97,12 +103,13 @@ const HowItWorks = () => {
                     <div className="rounded-full bg-rose-100 p-3 mb-4">
                       <Users className="h-6 w-6 text-rose-600" />
                     </div>
-                    <CardTitle>Connect with Donors</CardTitle>
+                    <CardTitle>Connectez-vous avec des Volontaires</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
                     <p>
-                      Communicate directly with donors to coordinate donations
-                      and pickups
+                      Communiquez directement avec des volontaires pour
+                      coordonner l&apos;engagement et la réalisation des
+                      missions de soutien.
                     </p>
                   </CardContent>
                 </Card>
@@ -111,12 +118,13 @@ const HowItWorks = () => {
                     <div className="rounded-full bg-rose-100 p-3 mb-4">
                       <HandHeart className="h-6 w-6 text-rose-600" />
                     </div>
-                    <CardTitle>Show Your Impact</CardTitle>
+                    <CardTitle>Montrez Votre Impact</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
                     <p>
-                      Share stories about how donations have helped your cause
-                      and community
+                      Partagez des histoires sur la manière dont
+                      l&apos;engagement des volontaires a aidé votre cause et
+                      renforcé votre communauté.
                     </p>
                   </CardContent>
                 </Card>

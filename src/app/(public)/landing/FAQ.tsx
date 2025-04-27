@@ -12,10 +12,10 @@ const FAQ = () => {
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Frequently Asked Questions
+              Questions Fréquemment Posées
             </h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Find answers to common questions about our platform
+              Trouvez les réponses aux questions courantes sur notre plateforme.
             </p>
           </div>
         </div>
@@ -28,44 +28,34 @@ const FAQ = () => {
           >
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                How do I know my donations are going to legitimate associations?
+                Comment savoir que mon engagement va aux bonnes associations ?
               </AccordionTrigger>
               <AccordionContent>
-                All associations on our platform go through a verification
-                process. We check their registration status, contact
-                information, and history before they can post needs or receive
-                donations.
+                Toutes les associations sur notre plateforme passent par un
+                processus de vérification. Nous vérifions leur statut
+                d&apos;enregistrement, leurs informations de contact et leur
+                historique avant qu&apos;elles ne puissent publier leurs besoins
+                ou accueillir des volontaires.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>
-                Can I donate money instead of items?
+                Comment coordonner mon engagement avec les associations ?
               </AccordionTrigger>
               <AccordionContent>
-                Our platform primarily focuses on item donations, but some
-                associations may specify monetary needs for specific projects.
-                You can always contact them directly to discuss alternative ways
-                to support.
+                Vous pouvez communiquer directement avec les associations via la
+                plateforme pour coordonner vos missions de bénévolat et définir
+                les modalités de votre aide.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger>
-                How do I coordinate the delivery of donated items?
+                Y a-t-il un coût pour utiliser la plateforme ?
               </AccordionTrigger>
               <AccordionContent>
-                After connecting with an association, you can arrange delivery
-                through our messaging system. Some associations offer pickup
-                services, while others may have drop-off locations or events.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger>
-                Is there a cost to use the platform?
-              </AccordionTrigger>
-              <AccordionContent>
-                Kheirkom is completely free. Associations can post their needs
-                and receive donations without any fees. We believe in making
-                giving back as accessible as possible.
+                Non, l&apos;utilisation de la plateforme est gratuite pour les
+                volontaires. Nous facilitons simplement la mise en relation avec
+                les associations en quête de soutien.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

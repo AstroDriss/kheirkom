@@ -7,8 +7,8 @@ interface NavigationLink {
 }
 
 const navigationLinks: NavigationLink[] = [
-  { name: "How it Works", href: "#how-it-works" },
-  { name: "About", href: "#about" },
+  { name: "Comment", href: "#how-it-works" },
+  { name: "à props", href: "#about" },
   { name: "FAQ", href: "#faq" },
 ];
 
@@ -22,7 +22,7 @@ export default function Nav() {
         </Link>
 
         <nav className="flex items-center gap-12">
-          <ul className="md:flex gap-10 items-center hidden">
+          <ul className="md:flex gap-10 items-center hidden capitalize">
             {navigationLinks.map((link) => (
               <li key={link.href}>
                 {/* <Link href={link.href}>{link.name}</Link> */}

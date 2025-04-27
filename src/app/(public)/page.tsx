@@ -15,23 +15,17 @@ export default async function Home() {
         {/* Stats Section */}
         <section className="py-12 md:py-16">
           <div className="container px-4 md:px-6">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
-              <div className="space-y-2">
-                <h3 className="text-3xl font-bold text-rose-600">3+</h3>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Registered Associations
-                </p>
-              </div>
+            <div className="grid grid-cols-2 gap-8 text-center">
               <div className="space-y-2">
                 <h3 className="text-3xl font-bold text-rose-600">9+</h3>
                 <p className="text-sm font-medium text-muted-foreground">
-                  Active Donors
+                  Associations
                 </p>
               </div>
               <div className="space-y-2">
-                <h3 className="text-3xl font-bold text-rose-600">0</h3>
+                <h3 className="text-3xl font-bold text-rose-600">99+</h3>
                 <p className="text-sm font-medium text-muted-foreground">
-                  Items Donated
+                  Volontaires Actifs
                 </p>
               </div>
             </div>
