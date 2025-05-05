@@ -14,7 +14,7 @@ export default async function Home() {
 
         {/* Stats Section */}
         <section className="py-12 md:py-16">
-          <div className="container px-4 md:px-6">
+          <div className=" px-4 md:px-6">
             <div className="grid grid-cols-2 gap-8 text-center">
               <div className="space-y-2">
                 <h3 className="text-3xl font-bold text-rose-600">9+</h3>

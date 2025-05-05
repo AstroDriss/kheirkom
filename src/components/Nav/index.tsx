@@ -7,8 +7,8 @@ interface NavigationLink {
 }
 
 const navigationLinks: NavigationLink[] = [
-  { name: "Comment", href: "#how-it-works" },
-  { name: "à props", href: "#about" },
+  { name: "How it works", href: "#how-it-works" },
+  { name: "About", href: "#about" },
   { name: "FAQ", href: "#faq" },
 ];
 

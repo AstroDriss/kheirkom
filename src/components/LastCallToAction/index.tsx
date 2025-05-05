@@ -15,7 +15,7 @@ const index = () => {
               travaillant ensemble pour créer un changement positif.
             </p>
           </div>
-          <div className="flex flex-col gap-2 min-[400px]:flex-row">
+          <div className="flex flex-col gap-2 min-[490px]:flex-row">
             <Button
               asChild
               size="lg"

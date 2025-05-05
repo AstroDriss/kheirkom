@@ -86,7 +86,7 @@ const RecentPosts = async () => {
     .order("created_at", { ascending: false })
     .limit(3);
 
-  if (error) return <p>error fetching posts</p>;
+  if (error) return <p className="text-center">error fetching posts</p>;
 
   return (
     <section id="recent" className="w-full py-12 md:py-24 lg:py-32">
